@@ -24,6 +24,48 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "test", "test\", "{CC64AF74-
 		SlnRelativePath = "test\"
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "button", "button\", "{A194E53B-279C-4979-837C-A557FC72FB23}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_52499"
+		Debug.AspNetCompiler.PhysicalPath = "button\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52499\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_52499"
+		Release.AspNetCompiler.PhysicalPath = "button\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52499\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "52499"
+		SlnRelativePath = "button\"
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "scroll", "scroll\", "{155ACB17-F09C-4385-AE30-46AB504E0888}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_51407"
+		Debug.AspNetCompiler.PhysicalPath = "scroll\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51407\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_51407"
+		Release.AspNetCompiler.PhysicalPath = "scroll\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51407\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "51407"
+		SlnRelativePath = "scroll\"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +73,10 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CC64AF74-D013-4582-8902-8B318EC4A93D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC64AF74-D013-4582-8902-8B318EC4A93D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A194E53B-279C-4979-837C-A557FC72FB23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A194E53B-279C-4979-837C-A557FC72FB23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{155ACB17-F09C-4385-AE30-46AB504E0888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{155ACB17-F09C-4385-AE30-46AB504E0888}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
