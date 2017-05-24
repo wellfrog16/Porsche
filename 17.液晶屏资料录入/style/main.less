@@ -1,0 +1,197 @@
+﻿@import 'common.less';
+
+// ------------------------------------横屏处理-----------------------------------------
+
+@media screen and (orientation: portrait) {
+    /*竖屏 css*/
+    .block {
+        display: none;
+    }
+}
+
+@media screen and (orientation: landscape) {
+    /*横屏 css*/
+    .block {
+        z-index: 9999;
+        position: absolute;
+        top:0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        background: #333;
+        color: #fff;
+        text-align: center;
+        line-height: 100vh;
+        font-size:20vh;
+        //display: none;
+    }
+}
+
+// ------------------------------------初始化-----------------------------------------
+html, body {
+    .percent-box();
+
+    font-family: 'Miscrosoft Yahei', '微软雅黑';
+    font-size:14px;
+
+    color:#fff;
+    background-color:#000;
+    overflow:hidden;
+}
+
+
+// ------------------------------------loading-----------------------------------------
+.loading {
+    .percent-box();
+
+    position:absolute;
+    text-align:center;
+    color:#fff;
+    top:0;
+    left:0;
+    line-height:90vh;
+    z-index:99;
+    background-color:#333;
+}
+
+// ------------------------------------secene-----------------------------------------
+
+.scene-index1 {
+    background-image:url(../img/main/index-1.jpg);
+    background-position:top center;
+    background-size:contain;
+    background-repeat:no-repeat;
+}
+
+.scene-index2 {
+    background-image:url(../img/main/index-2.jpg);
+    background-position:bottom center;
+    background-size:contain;
+    background-repeat:no-repeat;
+}
+
+.scene-main {
+    background-image:url(../img/main/movie.jpg);
+    background-position:top center;
+    background-size:contain;
+    background-repeat:no-repeat;
+    position:relative;
+}
+
+@footer-height:56px;
+
+.swiper-box {
+    .percent-box(100%, 175px);
+
+    position:absolute;
+    bottom:@footer-height;
+
+    //border-top:1px solid aliceblue;
+}
+
+
+// 上下页
+.pagination {
+    .percent-box(100%, @footer-height);
+
+    position:absolute;
+    bottom:0;
+    //border-top:1px solid aliceblue;
+    text-align:center;
+
+    .button {
+        border:1px solid #ddd;
+        width:122px;
+        height:24px;
+        line-height:24px;
+        display:inline-block;
+        margin:16px 10px;
+        color:#ddd;
+        border-radius:8px
+    }
+}
+
+
+#mainSwiper {
+
+    height:100%;
+
+    .header {
+        height:30px;
+        line-height:28px;
+        text-align:center;
+        border-bottom: 2px solid #000;
+        background-image:url(../img/main/title-bg.png);
+        background-position:center;
+        background-repeat:no-repeat;
+        background-size:contain;
+
+    }
+
+    .indicator {
+        position:absolute;
+        left:0;
+        top:63px;
+        width:50px;
+        height:100px;
+        z-index:10;
+        //background-color:aliceblue;
+
+        li {
+            height:3px;
+            line-height:3px;
+            font-size:0;
+            background-color:#4d4d4d;
+            width:20px;
+            margin:5px 0;
+
+            &.highlight {
+                background-color:red;
+                width:40px;
+            }
+        }
+    }
+
+    .swiper-wrapper > .swiper-slide {
+        position:relative;
+        //background-color:#000;
+        //background:-webkit-gradient(linear, left top, right top, from(#000000), color-stop(0.3, #282828), color-stop(0.7, #282828), to(#000000));
+    }
+}
+
+#themeSwiper, #lvxingSwiper {
+    
+    height:145px;
+    background-color:#000;
+    background-image:url(../img/main/swiper-bg1.png);
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size:contain;
+
+    .swiper-slide {
+        //height:55px;
+        line-height:48px;
+        text-align:center;
+        color:#535353;
+
+        span {
+            border-radius:5px;
+            padding:0px 20px;
+            margin:0 5px;
+            border:1px solid #535353;
+        }
+    }
+
+    .highlight {
+        color:#fff;
+        font-size:16px;
+
+        span {
+            border:1px solid #fff;
+        }
+    }
+}
+
+.lvxingSwiper .indicator {
+    top:85px !important;
+}

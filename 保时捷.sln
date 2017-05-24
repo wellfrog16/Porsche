@@ -66,6 +66,27 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "scroll", "scroll\", "{155AC
 		SlnRelativePath = "scroll\"
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "17.液晶屏资料录入", "17.液晶屏资料录入\", "{601B8BB9-8CCC-4117-AA2D-8C8183191354}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_50635"
+		Debug.AspNetCompiler.PhysicalPath = "17.液晶屏资料录入\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50635\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_50635"
+		Release.AspNetCompiler.PhysicalPath = "17.液晶屏资料录入\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50635\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "50635"
+		SlnRelativePath = "17.液晶屏资料录入\"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +98,8 @@ Global
 		{A194E53B-279C-4979-837C-A557FC72FB23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{155ACB17-F09C-4385-AE30-46AB504E0888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{155ACB17-F09C-4385-AE30-46AB504E0888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{601B8BB9-8CCC-4117-AA2D-8C8183191354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{601B8BB9-8CCC-4117-AA2D-8C8183191354}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

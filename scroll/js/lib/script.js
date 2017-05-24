@@ -28,7 +28,8 @@ define(['jquery', 'swiper', 'weixin', 'createjs'], function ($, swiper, wx) {
             freeModeSticky: true,
             centeredSlides: true,
             mousewheelControl: true,
-            watchSlidesProgress:true,
+            watchSlidesProgress: true,
+            //effect:'cube',
             //loop:true,
             onInit: function (swiper) {
                 swiper.removeSlide(0);
