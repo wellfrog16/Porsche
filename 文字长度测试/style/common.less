@@ -1,0 +1,91 @@
+﻿// ------------------------------------初始化开始-----------------------------------------
+html, body, ul, ol, li, dl, dt, dd, p, h1, h2, h3, h4, h5, h6 {
+    padding:0;
+    margin:0;
+}
+
+ul, ol {
+    list-style:none;
+}
+
+* {
+    box-sizing:border-box;
+}
+
+img { border:0;}
+
+a { text-decoration:none;}
+// ------------------------------------初始化结束-----------------------------------------
+
+.border-radius(@param) {
+    border-radius:@param;
+    -webkit-border-radius:@param;
+    -moz-border-radius:@param;
+}
+
+.transform(@param){
+    transform:@param;
+    -ms-transform:@param;
+    -webkit-transform:@param;
+    -moz-transform:@param;
+    -o-transform:@param;
+}
+
+.transform-origin(@param){
+    transform-origin:@param;
+    -ms-transform-origin:@param;
+    -webkit-transform-origin:@param;
+    -moz-transform-origin:@param;
+    -o-transform-origin:@param;
+}
+
+
+.percent-box(@width:100%, @height:100%) {
+    width:@width;
+    height:@height;
+}
+
+// 设置坐标
+.coordinate(@top, @right, @bottom, @left) when (isnumber(@top)) {top: @top;}
+.coordinate(@top, @right, @bottom, @left) when (isnumber(@right)) {right: @right;}
+.coordinate(@top, @right, @bottom, @left) when (isnumber(@bottom)) {bottom: @bottom;}
+.coordinate(@top, @right, @bottom, @left) when (isnumber(@left)) {left: @left;}
+
+
+// 绝对
+.absolute-box(@width, @height, @all) {
+    .absolute-box(@width,  @height, @all, @all, @all, @all)
+}
+
+.absolute-box(@width, @height, @top-bottom, @left-right) {
+    .absolute-box(@width,  @height, @top-bottom, @left-right, @top-bottom, @left-right)
+}
+
+.absolute-box(@width, @height, @top, @left-right, @bottom) {
+    .absolute-box(@width,  @height, @top, @left-right, @bottom, @left-right)
+}
+
+.absolute-box(@width, @height, @top, @right, @bottom, @left) {
+    .percent-box(@width, @height);    
+    .coordinate(@top, @right, @bottom, @left);
+    position:absolute;
+}
+
+// 相对
+.relative-box(@width, @height, @all) {
+    .relative-box(@width,  @height, @all, @all, @all, @all)
+}
+
+.relative-box(@width, @height, @top-bottom, @left-right) {
+    .relative-box(@width,  @height, @top-bottom, @left-right, @top-bottom, @left-right)
+}
+
+.relative-box(@width, @height, @top, @left-right, @bottom) {
+    .relative-box(@width,  @height, @top, @left-right, @bottom, @left-right)
+}
+
+.relative-box(@width, @height, @top, @right, @bottom, @left) {
+    .percent-box(@width, @height);   
+    .coordinate(@top, @right, @bottom, @left);
+    position:relative;
+}

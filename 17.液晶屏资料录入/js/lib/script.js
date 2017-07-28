@@ -108,7 +108,17 @@ define(['jquery', 'swiper', 'weixin', 'createjs'], function ($, swiper, wx) {
                 freeModeSticky: true,
                 centeredSlides: true,
                 slideToClickedSlide :true,
-                onInit: function () {
+                onInit: function (swiper) {
+
+                    // 循环9次，单次9个
+                    for (var i = 1; i <= 15; i++) {
+                        $.each(self.data, function (index, item) {
+                            swiper.appendSlide('<div class="swiper-slide">' + item.n + '</div>');
+                        })
+                    }
+
+                    swiper.update();
+                    //swi
 
                     // 动作绑定
                     self.bindAction();
@@ -237,6 +247,67 @@ define(['jquery', 'swiper', 'weixin', 'createjs'], function ($, swiper, wx) {
         });
     }
 
+
+    self.data = [
+        {
+            n: '旅行', m: [
+                { n: '是时候来一场<span></span>之旅', m: ['沙漠', '公路', '海滩', '都市', '山地'] },
+                { n: '祝你<span></span>之行轻松愉悦', m: 'city' },
+                { n: '祝你<span></span>之行顺利', m: 'city' }
+            ]
+        },
+
+        {
+            n: '表白', m: [
+                { n: '令心跳加速的不止<span></span>，还有你', m: ['保时捷', '速度', '未来', '远方', '风景'] },
+                { n: '因为有你，每一次<span></span>都是惊喜', m: ['远行', '旅途', '出发', '邂逅', '启程'] }
+            ]
+        },
+
+        {
+            n: '生日', m: ['(Chinese)生日快乐', '(English) Happy Birthday', '(French) Bon Anniversaire', '(German) Alles Gute Zum Geburtstag', '(Spanish) iFeliz Cumpleaños']
+        },
+
+        {
+            n: '工作', m: [
+                { n: '我爱<span></span>，<span></span>让我快乐', m: ['出差', '工作', '加班', '开会', '公司'] },
+                { n: '全情投入，偶尔也要逃离<span></span>', m: ['办公室', '写字楼', '北上广', '大城市', '格子间'] }
+            ]
+        },
+
+        {
+            n: '团聚', m: [
+                { n: '这一次出发，只为<span></span>', m: ['抵达', '重逢', '邂逅', '约定', '回家'] },
+                { n: '要去的方向，是有<span></span>的地方', m: ['家人', '朋友', '闺蜜', '兄弟', '挚爱'] }
+            ]
+        },
+
+        {
+            n: '比赛', m: [
+                { n: '期待你创造新的<span></span>', m: ['记录', '荣耀', '传奇', '故事', '篇章'] },
+                { n: '下赛道，<span></span>！', m: ['一决高下', '实力说话', '创造传奇', '极速竞技', '挑战极限'] }
+            ]
+        },
+
+        {
+            n: '成长', m: [
+                { n: '一生中一定要有一次<span></span>', m: ['热恋', '旅行', '奋不顾身', '独处', '任性'] },
+                { n: '成长的乐趣是实现<span></span>的梦想', m: ['儿时', '青春', '看似幼稚', '小小', '不切实际'] }
+            ]
+        },
+
+        {
+            n: '梦想', m: [
+                { n: '一部车，<span></span>，就是心之所向', m: ['一片星空', '一个梦想', '一座岛屿', '一份自由', '一个终点'] },
+                { n: '我的梦想，在<span></span>', m: ['赛场', '舞台', '路上', '远方', '故乡'] }
+            ]
+        },
+
+        {
+            n: '自定义', m: 'other'
+        }
+    ]
+
     self.template = {
         loading: '<div class="loading"><span></span></div>',
         pageSwiper:
@@ -252,17 +323,7 @@ define(['jquery', 'swiper', 'weixin', 'createjs'], function ($, swiper, wx) {
                                         <div class="header">主题</div>\
                                         <ul class="indicator"><li class="highlight"></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>\
                                         <div class="swiper-container" id="themeSwiper">\
-                                            <div class="swiper-wrapper">\
-                                                <div class="swiper-slide highlight">旅行</div>\
-                                                <div class="swiper-slide">表白</div>\
-                                                <div class="swiper-slide">生日</div>\
-                                                <div class="swiper-slide">工作</div>\
-                                                <div class="swiper-slide">团聚</div>\
-                                                <div class="swiper-slide">比赛</div>\
-                                                <div class="swiper-slide">成长</div>\
-                                                <div class="swiper-slide">梦想</div>\
-                                                <div class="swiper-slide">自定义</div>\
-                                            </div>\
+                                            <div class="swiper-wrapper"></div>\
                                         </div>\
                                     </div>\
                                 </div>\

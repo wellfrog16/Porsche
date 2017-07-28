@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="style/main.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="text jsfix" data-size="no">Alles Gute Zum Geburtstag</div>
+</body>
+</html>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var scaleNum = document.documentElement.clientWidth / 320;
+    var ele = $('.jsfix');
+
+    ele.each(function () {
+        var o = $(this),
+            fix = o.attr('data-fixPosi') || 'top-left',     // 需要调整的方向，默认top-left
+            size = o.attr('data-size') || 'yes';         // 是否需要大小调整，默认yes
+
+        var fixArray = fix.split('-');
+
+        if (size == 'yes') { fixArray.push('width', 'height'); }
+
+        $.each(fixArray, function (index, item) {
+            o.css(item, scaleNum * parseInt(o.css(item)));
+        });
+    });
+</script>

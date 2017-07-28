@@ -1,0 +1,37 @@
+﻿@import 'common.less';
+
+html, body {
+    .percent-box();
+
+    font-family: 'Miscrosoft Yahei', '微软雅黑';
+    font-size:12px;
+
+    color:#fff;
+    background-color:#000;
+    overflow:hidden;
+}
+
+body {
+    background-image:url('../img/bg.png');
+    background-repeat:no-repeat;
+    background-size:contain;
+    background-position:top;
+}
+
+
+.text {
+    position:absolute;
+    top:127px;
+    left:170px;
+    overflow:hidden;
+    height:14px;
+    //white-space:nowrap;
+
+    @deg:25deg;
+
+    transform:rotate(@deg);
+    -ms-transform:rotate(@deg); 	/* IE 9 */
+    -moz-transform:rotate(@deg); 	/* Firefox */
+    -webkit-transform:rotate(@deg); /* Safari 和 Chrome */
+    -o-transform:rotate(@deg); 	/* Opera */
+}

@@ -87,6 +87,27 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "17.液晶屏资料录入", 
 		SlnRelativePath = "17.液晶屏资料录入\"
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "文字长度测试", "文字长度测试\", "{236FD194-5833-4204-920C-47E6E56BE977}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_55601"
+		Debug.AspNetCompiler.PhysicalPath = "文字长度测试\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55601\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_55601"
+		Release.AspNetCompiler.PhysicalPath = "文字长度测试\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55601\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "55601"
+		SlnRelativePath = "文字长度测试\"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,6 +121,8 @@ Global
 		{155ACB17-F09C-4385-AE30-46AB504E0888}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{601B8BB9-8CCC-4117-AA2D-8C8183191354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{601B8BB9-8CCC-4117-AA2D-8C8183191354}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{236FD194-5833-4204-920C-47E6E56BE977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{236FD194-5833-4204-920C-47E6E56BE977}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
