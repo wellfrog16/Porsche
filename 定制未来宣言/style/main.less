@@ -83,11 +83,34 @@ html, body {
 }
 
 .scene-main {
-    background-image:url(../img/main/movie.jpg);
+    background-image:url(../img/main/movie.png);
     background-position:top center;
     background-size:contain;
     background-repeat:no-repeat;
     position:relative;
+}
+
+.declaration {
+    position:absolute;
+    top:138px;
+    left:170px;
+    overflow:hidden;
+    height:14px;
+    width:200px;
+    color:#fff;
+    z-index:5;
+    font-size:12px;
+    //white-space:nowrap;
+
+    .transform(rotate(25deg));
+
+    span {
+        padding:0px 10px;
+
+        &.ative {
+            padding:0;
+        }
+    }
 }
 
 @footer-height:56px;
@@ -171,7 +194,7 @@ html, body {
     }
 }
 
-#themeSwiper, #lvxingSwiper {
+#themeSwiper, #lvxingSwiper, #commonSecondSwiper {
     
     height:145px;
     background-color:#000;
@@ -206,4 +229,31 @@ html, body {
 
 .lvxingSwiper .indicator {
     top:85px !important;
+}
+
+
+.commonThirdSwiper {
+    ul {
+        height:100%;
+        width:100%;
+        background-color:#000;
+
+        li {
+            float:left;
+            width:33.33%;
+            height:40%;
+            text-align:center;
+            padding-top:10%;
+        }
+
+        span {
+            .border-radius(8px);
+            padding:3px 6px;
+            margin-top:20%;
+
+            &.active {
+                border:1px solid #fff;
+            }
+        }
+    }
 }

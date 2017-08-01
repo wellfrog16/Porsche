@@ -27,7 +27,6 @@
 
     // 坐标修正
     self.fixPosition = function (baseWidth) {
-
         var scaleNum = document.documentElement.clientWidth / baseWidth;
         var ele = $('.jsfix');
 

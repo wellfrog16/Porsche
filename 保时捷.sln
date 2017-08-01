@@ -129,6 +129,26 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "定制未来宣言", "定�
 		SlnRelativePath = "定制未来宣言\"
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "接口测试", "接口测试\", "{C5BD9B58-10CB-422F-B560-75AC62DA15CB}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_65230"
+		Debug.AspNetCompiler.PhysicalPath = "接口测试\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_65230\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_65230"
+		Release.AspNetCompiler.PhysicalPath = "接口测试\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_65230\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "65230"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -146,6 +166,8 @@ Global
 		{236FD194-5833-4204-920C-47E6E56BE977}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15B1FFA6-5DB5-404D-8293-FE33E3A23494}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15B1FFA6-5DB5-404D-8293-FE33E3A23494}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5BD9B58-10CB-422F-B560-75AC62DA15CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5BD9B58-10CB-422F-B560-75AC62DA15CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

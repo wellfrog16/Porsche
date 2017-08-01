@@ -89,11 +89,33 @@ body {
   background-repeat: no-repeat;
 }
 .scene-main {
-  background-image: url(../img/main/movie.jpg);
+  background-image: url(../img/main/movie.png);
   background-position: top center;
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;
+}
+.declaration {
+  position: absolute;
+  top: 138px;
+  left: 170px;
+  overflow: hidden;
+  height: 14px;
+  width: 200px;
+  color: #fff;
+  z-index: 5;
+  font-size: 12px;
+  transform: rotate(25deg);
+  -ms-transform: rotate(25deg);
+  -webkit-transform: rotate(25deg);
+  -moz-transform: rotate(25deg);
+  -o-transform: rotate(25deg);
+}
+.declaration span {
+  padding: 0px 10px;
+}
+.declaration span.ative {
+  padding: 0;
 }
 .swiper-box {
   width: 100%;
@@ -155,7 +177,8 @@ body {
   position: relative;
 }
 #themeSwiper,
-#lvxingSwiper {
+#lvxingSwiper,
+#commonSecondSwiper {
   height: 145px;
   background-color: #000;
   background-image: url(../img/main/swiper-bg1.png);
@@ -164,27 +187,53 @@ body {
   background-size: contain;
 }
 #themeSwiper .swiper-slide,
-#lvxingSwiper .swiper-slide {
+#lvxingSwiper .swiper-slide,
+#commonSecondSwiper .swiper-slide {
   line-height: 48px;
   text-align: center;
   color: #535353;
 }
 #themeSwiper .swiper-slide span,
-#lvxingSwiper .swiper-slide span {
+#lvxingSwiper .swiper-slide span,
+#commonSecondSwiper .swiper-slide span {
   border-radius: 5px;
   padding: 0px 20px;
   margin: 0 5px;
   border: 1px solid #535353;
 }
 #themeSwiper .highlight,
-#lvxingSwiper .highlight {
+#lvxingSwiper .highlight,
+#commonSecondSwiper .highlight {
   color: #fff;
   font-size: 16px;
 }
 #themeSwiper .highlight span,
-#lvxingSwiper .highlight span {
+#lvxingSwiper .highlight span,
+#commonSecondSwiper .highlight span {
   border: 1px solid #fff;
 }
 .lvxingSwiper .indicator {
   top: 85px !important;
+}
+.commonThirdSwiper ul {
+  height: 100%;
+  width: 100%;
+  background-color: #000;
+}
+.commonThirdSwiper ul li {
+  float: left;
+  width: 33.33%;
+  height: 40%;
+  text-align: center;
+  padding-top: 10%;
+}
+.commonThirdSwiper ul span {
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  padding: 3px 6px;
+  margin-top: 20%;
+}
+.commonThirdSwiper ul span.active {
+  border: 1px solid #fff;
 }
