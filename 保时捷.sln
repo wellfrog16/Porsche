@@ -147,6 +147,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "接口测试", "接口测�
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "65230"
+		SlnRelativePath = "接口测试\"
 	EndProjectSection
 EndProject
 Global

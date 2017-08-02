@@ -97,7 +97,7 @@ body {
 }
 .declaration {
   position: absolute;
-  top: 138px;
+  top: 134px;
   left: 170px;
   overflow: hidden;
   height: 14px;
@@ -114,7 +114,7 @@ body {
 .declaration span {
   padding: 0px 10px;
 }
-.declaration span.ative {
+.declaration span.active {
   padding: 0;
 }
 .swiper-box {
@@ -215,25 +215,80 @@ body {
 .lvxingSwiper .indicator {
   top: 85px !important;
 }
-.commonThirdSwiper ul {
-  height: 100%;
-  width: 100%;
+.customKeySwiper,
+.customThemeSwiper {
   background-color: #000;
+  text-align: center;
+}
+.customKeySwiper input,
+.customThemeSwiper input {
+  width: 208px;
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid #464646;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  background-color: #000;
+  margin-top: 60px;
+  color: #fff;
+}
+.commonThirdSwiper {
+  background-color: #000;
+}
+.commonThirdSwiper ul {
+  width: 100%;
+  padding-top: 20px;
 }
 .commonThirdSwiper ul li {
   float: left;
   width: 33.33%;
-  height: 40%;
+  height: 50px;
   text-align: center;
-  padding-top: 10%;
 }
 .commonThirdSwiper ul span {
   border-radius: 8px;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   padding: 3px 6px;
-  margin-top: 20%;
 }
 .commonThirdSwiper ul span.active {
+  border: 1px solid #fff;
+}
+.citySwiper {
+  background-color: #000;
+}
+#regionSwiper,
+#countrySwiper,
+#citySwiper {
+  height: 145px;
+  width: 30%;
+  float: left;
+  background-color: #000;
+}
+#regionSwiper .swiper-slide,
+#countrySwiper .swiper-slide,
+#citySwiper .swiper-slide {
+  line-height: 48px;
+  text-align: center;
+  color: #535353;
+}
+#regionSwiper .swiper-slide span,
+#countrySwiper .swiper-slide span,
+#citySwiper .swiper-slide span {
+  border-radius: 5px;
+  padding: 0px 20px;
+  margin: 0 5px;
+  border: 1px solid #535353;
+}
+#regionSwiper .highlight,
+#countrySwiper .highlight,
+#citySwiper .highlight {
+  color: #fff;
+  font-size: 16px;
+}
+#regionSwiper .highlight span,
+#countrySwiper .highlight span,
+#citySwiper .highlight span {
   border: 1px solid #fff;
 }

@@ -80,7 +80,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
     self.lvxingSwiper = null;
     self.lvxingIndex = 0;
 
-    var theme = 0, record = 0, step = 0;
+    var theme = 0, record = 0, customKey = 0, step = 0;
 
     self.initPageSwiper = function () {
 
@@ -93,7 +93,14 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             direction: 'vertical',
             width: window.innerWidth,
             height: window.innerHeight,
-            onInit: function (sw) { initMainSwiper(sw); }
+            onInit: function (sw) { initMainSwiper(sw); },
+            onTransitionEnd: function (swiper) {
+
+                if (swiper.activeIndex == 2) {
+                    swiper.lockSwipes();
+                }
+
+            }
         });
 
         // 选择3D翻页swiper
@@ -103,9 +110,16 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 speed: 500,
                 loop: false,
                 onlyExternal: true,
-                onInit: function (swiper) { initThemeSwiper(sw); }
+                onInit: function (swiper) { initThemeSwiper(sw); },
+                onTransitionEnd: function (swiper) {
+
+                    swiper.activeIndex > swiper.previousIndex ? step++ : step--;
+
+                }
             });
         }
+
+        //previousIndex
 
         // 主题swiper
         function initThemeSwiper(sw) {
@@ -170,12 +184,15 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     $('#themeSwiper .swiper-slide').eq(swiper.activeIndex).addClass('highlight');
 
                     theme = swiper.realIndex;
+                    console.log('theme=' + theme)
                 }
             });
         }
 
         //-----
     }
+
+    //var 
 
 
     self.bindAction = function () {
@@ -197,6 +214,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
                 switch (theme) {
                     case 8:
+                        self.appendCustomTheme();
                         break;
 
                     default:
@@ -208,31 +226,43 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             }
 
             if (step == 1) {
-
-                switch (theme) {
-                    case 8:
-                        break;
-
-                    default:
-                        self.appendThirdCommon();
-                        break;
+                
+                if (theme == 0 && record > 0) {     // 城市选择
+                    self.appendCity();
+                }
+                else if (theme == 2) {              // 生日祝福
+                    return;
+                }
+                else if (theme == 8) {
+                    return;
+                }
+                else {
+                    self.appendThirdCommon();
                 }
 
                 self.mainSwiper.slideNext();
             }
 
-            step++;
+            if (step == 2 && customKey == 1) {
+
+                self.appendCustomKey();
+                self.mainSwiper.slideNext();
+            }
+
+
+
+            //step++;
         });
 
         $('.scene-main .pre').hammer().on("tap", function (e) {            
             self.mainSwiper.slidePrev();
-            step--;
+            //step--;
         });
     }
 
 
     self.appendSecondCommon = function () {
-        self.mainSwiper.removeSlide([1, 2]);
+        self.mainSwiper.removeSlide([1, 2, 3]);
         self.mainSwiper.appendSlide(self.template.commonSecondSwiper);
         self.mainSwiper.update();
 
@@ -267,13 +297,14 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 $('.declaration').html(self.data[theme].m[swiper.realIndex].n);
 
                 record = swiper.realIndex;
+                console.log('record='+ record)
             }
         });
     }
 
     self.appendThirdCommon = function () {
 
-        self.mainSwiper.removeSlide([2]);
+        self.mainSwiper.removeSlide([2, 3]);
         self.mainSwiper.appendSlide(self.template.commonThirdSwiper);
         self.mainSwiper.update();
 
@@ -287,7 +318,257 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             $(this).hammer().on("tap", function (e) {
                 $('.commonThirdSwiper ul li span').removeClass('active');
                 $('span', $(this)).addClass('active');
+
+                var declaration = $('.declaration').text();
+
+                var text = $('span', $(this)).text()
+
+                customKey = text == '自定义' ? 1 : 0;
+
+                if (text != '自定义') {
+                    $('.declaration span').text(text);
+                    $('.declaration span').addClass('active');
+                }
+                else {
+                    $('.declaration span').text('');
+                    $('.declaration span').removeClass('active');
+                }
+
             });
+        })
+    }
+
+    self.appendCity = function () {
+        self.mainSwiper.removeSlide([2, 3]);
+        self.mainSwiper.appendSlide(self.template.citySwiper);
+        self.mainSwiper.update();
+
+        initRegion();
+
+        var regionIndex = 0, countryIndex = 0, cityIndex = 0;
+
+        function initRegion() {
+            self.regionSwiper = new swiper('#regionSwiper', {
+                direction: 'vertical',
+                freeModeMomentumRatio: 0.2,
+                slidesPerView: 3,
+                freeMode: true,
+                freeModeSticky: true,
+                centeredSlides: true,
+                //loop: true,
+                //loopAdditionalSlides: city.length,
+                onInit: function (swiper) {
+                    // 更新数据
+                    $.each(city, function (index, item) {
+                        swiper.appendSlide('<div class="swiper-slide">' + item.region + '</div>');
+                    })
+
+                    swiper.update();
+
+                    //swiper.slideTo(city.length);
+                    $('#regionSwiper .swiper-slide').eq(0).addClass('highlight');
+
+                    $('.declaration span').text('三亚');
+                    $('.declaration span').addClass('active');
+
+                    initCountry();
+
+                },
+                onTransitionStart: function (swiper) {
+                    $('#regionSwiper .highlight').removeClass('highlight');
+
+                },
+                onTransitionEnd: function (swiper) {
+                    $('#regionSwiper .swiper-slide').eq(swiper.activeIndex).addClass('highlight');
+
+
+                    if (regionIndex != swiper.realIndex) {
+                        regionIndex = swiper.realIndex;
+
+                        self.countrySwiper.removeAllSlides();
+
+                        $.each(city[regionIndex].country, function (index, item) {
+                            self.countrySwiper.appendSlide('<div class="swiper-slide">' + item.name + '</div>');
+                        })
+
+                        self.countrySwiper.update();
+
+                        $('#countrySwiper .swiper-slide').eq(0).addClass('highlight');
+
+                        // ---------
+                        self.citySwiper.removeAllSlides();
+
+                        $.each(city[regionIndex].country[0].city, function (index, item) {
+                            self.citySwiper.appendSlide('<div class="swiper-slide">' + item + '</div>');
+                        })
+
+                        self.citySwiper.update();
+
+                        $('#citySwiper .swiper-slide').eq(0).addClass('highlight');
+
+
+                        var text = $(self.citySwiper.slides[0]).text();
+
+                        $('.declaration span').text(text);
+                        $('.declaration span').addClass('active');
+                    }
+
+                    //console.log(self.countrySwiper);
+                    //$('.declaration').html(self.data[theme].m[swiper.realIndex].n);
+
+                    //record = swiper.realIndex;
+                    //console.log('record=' + record)
+                }
+            });
+        }
+
+        function initCountry() {
+            self.countrySwiper = new swiper('#countrySwiper', {
+                direction: 'vertical',
+                freeModeMomentumRatio: 0.2,
+                slidesPerView: 3,
+                freeMode: true,
+                freeModeSticky: true,
+                centeredSlides: true,
+                //loop: true,
+                //loopAdditionalSlides: city.length,
+                onInit: function (swiper) {
+                    // 更新数据
+                    $.each(city[0].country, function (index, item) {
+                        swiper.appendSlide('<div class="swiper-slide">' + item.name + '</div>');
+                    })
+
+                    swiper.update();
+
+                    //swiper.slideTo(city[0].country.length);
+                    $('#countrySwiper .swiper-slide').eq(0).addClass('highlight');
+
+                    initCity();
+
+                },
+                onTransitionStart: function (swiper) {
+                    $('#countrySwiper .highlight').removeClass('highlight');
+
+                },
+                onTransitionEnd: function (swiper) {
+                    $('#countrySwiper .swiper-slide').eq(swiper.activeIndex).addClass('highlight');
+                    //$('.declaration').html(self.data[theme].m[swiper.realIndex].n);
+
+                    if (countryIndex != swiper.realIndex) {
+                        countryIndex = swiper.realIndex;
+
+                        // ---------
+                        self.citySwiper.removeAllSlides();
+
+                        $.each(city[regionIndex].country[countryIndex].city, function (index, item) {
+                            self.citySwiper.appendSlide('<div class="swiper-slide">' + item + '</div>');
+                        })
+
+                        self.citySwiper.update();
+
+                        $('#citySwiper .swiper-slide').eq(0).addClass('highlight');
+
+                        var text = $(self.countrySwiper.slides[countryIndex]).text();
+
+                        customKey = text == '其他' ? 1 : 0;
+
+                        if (text != '其他') {
+                            $('.declaration span').text(text);
+                            $('.declaration span').addClass('active');
+                        }
+                        else {
+                            $('.declaration span').text('');
+                            $('.declaration span').removeClass('active');
+                        }
+                    }
+
+                    //record = swiper.realIndex;
+                    //console.log('record=' + record)
+                }
+            });
+        }
+
+        function initCity() {
+            self.citySwiper = new swiper('#citySwiper', {
+                direction: 'vertical',
+                freeModeMomentumRatio: 0.2,
+                slidesPerView: 3,
+                freeMode: true,
+                freeModeSticky: true,
+                centeredSlides: true,
+                //loop: true,
+                //loopAdditionalSlides: city.length,
+                onInit: function (swiper) {
+                    // 更新数据
+                    $.each(city[0].country[0].city, function (index, item) {
+                        swiper.appendSlide('<div class="swiper-slide">' + item + '</div>');
+                    })
+
+                    swiper.update();
+
+                    //swiper.slideTo(city[0].country.length);
+                    $('#citySwiper .swiper-slide').eq(0).addClass('highlight');
+
+
+
+                },
+                onTransitionStart: function (swiper) {
+                    $('#citySwiper .highlight').removeClass('highlight');
+
+                },
+                onTransitionEnd: function (swiper) {
+                    $('#citySwiper .swiper-slide').eq(swiper.activeIndex).addClass('highlight');
+
+                    var text = $(self.citySwiper.slides[swiper.activeIndex]).text();
+
+                    $('.declaration span').text(text);
+                    $('.declaration span').addClass('active');
+
+                    //$('.declaration').html(self.data[theme].m[swiper.realIndex].n);
+
+                    //record = swiper.realIndex;
+                    //console.log('record=' + record)
+                }
+            });
+        }
+    }
+
+
+    self.appendCustomKey = function () {
+        self.mainSwiper.removeSlide([3]);
+        self.mainSwiper.appendSlide(self.template.customKeySwiper);
+        self.mainSwiper.update();
+
+        $('.customKeySwiper input').on('keyup', function () {
+
+            var text = $(this).val();
+
+            if (text.length > 4) { return }
+
+            if (text != '') {
+                $('.declaration span').text(text);
+                $('.declaration span').addClass('active');
+            }
+            else {
+                $('.declaration span').text('');
+                $('.declaration span').removeClass('active');
+            }
+
+        })
+    }
+
+    self.appendCustomTheme = function () {
+        self.mainSwiper.removeSlide([1,2,3]);
+        self.mainSwiper.appendSlide(self.template.customThemeSwiper);
+        self.mainSwiper.update();
+
+        $('.customThemeSwiper input').on('keyup', function () {
+
+            var text = $(this).val();
+
+            if (text.length > 10) { return }
+
+            $('.declaration').text(text);
         })
     }
 
@@ -397,10 +678,65 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         }
     ]
 
+    var city = [
+        {
+            region: '亚洲', country: [
+                { name: '内地', city: ['三亚', '厦门', '青岛', '丽江', '大连', '成都', '上海', '桂林', '北京', '西安'] },
+                { name: '港澳台', city: ['香港', '澳门', '台北', '高雄', '垦丁', '花莲'] },
+                { name: '日本', city: ['东京', '大板', '京都', '奈良', '箱根', '北海道', '冲绳', '福冈', '神户', '神奈川'] },
+                { name: '泰国', city: ['普吉岛', '曼谷', '清迈', '芭提雅', '苏梅岛', '皮皮岛', '甲米', '拜县', '沙美岛', '清莱'] },
+                { name: '韩国', city: ['首尔', '济州岛', '釜山', '仁川', '江原道'] },
+                { name: '越南', city: ['岘港', '胡志明市', '下龙湾', '芽庄', '美奈'] },
+                { name: '新加坡', city: ['新加坡'] },
+                { name: '马来西亚', city: ['吉隆坡', '沙巴', '兰卡威', '马六甲', '滨城'] },
+                { name: '菲律宾', city: ['长滩岛', '马尼拉', '宿雾', '薄荷岛', '巴拉望'] },
+                { name: '其他', city: ['其他'] }
+            ]
+        },
+
+        {
+            region: '欧洲', country: [
+                { name: '英国', city: ['伦敦', '爱丁堡', '牛津', '剑桥', '曼彻斯特', '约克', '巴斯', '利物浦', '伯明翰', '纽卡斯尔'] },
+                { name: '德国', city: ['柏林', '慕尼黑', '多特蒙德', '法兰克福', '科隆', '海德堡', '汉堡', '斯图加特', '纽伦堡'] },
+                { name: '法国', city: ['巴黎', '普罗旺斯', '马赛', '里昂', '戛纳'] },
+                { name: '西班牙', city: ['巴塞罗那', '马德里', '塞维利亚', '瓦伦西亚', '科尔多瓦'] },
+                { name: '意大利', city: ['罗马', '米兰', '那不勒斯', '都灵', '佛罗伦萨', '威尼斯'] },
+                { name: '荷兰', city: ['阿姆斯特丹', '马斯特里赫特', '海牙', '鹿特丹', '乌特勒支'] },
+                { name: '瑞士', city: ['苏黎世', '卢塞恩', '日内瓦', '洛桑', '卢加诺'] },
+                { name: '其他', city: ['其他'] }
+            ]
+        },
+
+        {
+            region: '北美洲', country: [
+                { name: '美国', city: ['纽约', '洛杉矶', '旧金山', '西雅图', '华盛顿', '拉斯维加斯', '夏威夷', '波士顿', '芝加哥', '费城'] },
+                { name: '加拿大', city: ['温哥华', '蒙特利尔', '多伦多', '渥太华', '魁北克'] },
+                { name: '其他', city: ['其他'] }
+            ]
+        },
+
+        {
+            region: '南美洲', country: [
+                { name: '巴西', city: ['里约热内卢', '圣保罗'] },
+                { name: '阿根廷', city: ['布宜诺斯艾利斯', '蒙得维的亚'] },
+                { name: '其他', city: ['其他'] }
+            ]
+        },
+
+        {
+            region: '大洋洲', country: [
+                { name: '澳大利亚', city: ['悉尼', '墨尔本', '凯恩斯', '黄金海岸', '堪培拉'] },
+                { name: '新西兰', city: ['奥克兰', '皇后镇', '惠灵顿'] },
+                { name: '斐济', city: ['斐济'] },
+                { name: '其他', city: ['其他'] }
+            ]
+        }
+    ]
+
     self.template = {
         loading: '<div class="loading"><span></span></div>',
         pageSwiper:
-            '<div class="declaration jsfix" data-size="no">一二三四五六七八九十一二三四五六七八九十</div>\
+            '<div class="declaration jsfix" data-size="no"></div>\
             <div class="swiper-container" id="pageSwiper">\
                 <div class="swiper-wrapper">\
                     <div class="swiper-slide scene-index1"></div>\
@@ -441,6 +777,29 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             '<div class="swiper-slide commonThirdSwiper">\
                 <div class="header">选择一个关键词</div>\
                 <ul></ul>\
+            </div>',
+        citySwiper:
+            '<div class="swiper-slide citySwiper">\
+                <div class="header">选择梦想之地</div>\
+                <div class="swiper-container" id="regionSwiper">\
+                    <div class="swiper-wrapper"></div>\
+                </div>\
+                <div class="swiper-container" id="countrySwiper">\
+                    <div class="swiper-wrapper"></div>\
+                </div>\
+                <div class="swiper-container" id="citySwiper">\
+                    <div class="swiper-wrapper"></div>\
+                </div>\
+            </div>',
+        customKeySwiper:
+            '<div class="swiper-slide customKeySwiper">\
+                <div class="header">打造专属霸屏</div>\
+                <div><input type="text"></div>\
+            </div>',
+        customThemeSwiper:
+            '<div class="swiper-slide customThemeSwiper">\
+                <div class="header">打造专属霸屏</div>\
+                <div><input type="text"></div>\
             </div>'
     }
 
