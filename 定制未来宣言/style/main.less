@@ -310,3 +310,209 @@ html, body {
         }
     }
 }
+
+// ---------------------------------------------------------
+// 留资表单
+.user-form {
+    .absolute-box(100%, 100%, 0);
+    z-index:11;
+
+    background-color:#000;
+    background-image:url('../img/main/form-bg.jpg');
+    background-repeat:no-repeat;
+    background-size:contain;
+    background-position:center;
+
+    h3 {
+        text-align:center;
+        font-size:19px;
+        font-weight:normal;
+        margin-top:5vh;
+    }
+
+    >p {
+        text-align:center;
+        margin-top:4vh;
+    }
+
+    ul {
+        margin-top:4vh;
+
+        li {
+            height:30px;
+            line-height:30px;
+            background-color:#000;
+            margin-bottom:1vh;
+            font-size:16px;
+            padding-left:10vw;
+        }
+
+        span { display:inline-block;  }
+        i { 
+            display:inline-block; 
+            width:10px;
+            height:10px;
+            background-color:#c40902;
+            margin-left:10px;
+        }
+
+        input {
+            margin-left:10px;
+            width:40vw;
+            background-color:#000;
+            border:0;
+            color:#fff;
+            font-size:14px;
+
+            &.code {
+                width:20vw;
+            }
+        }
+
+        a {
+            color:#fff;
+            border:1px solid #7d7d7d;
+            padding:0 14px;
+            //height:28px;
+            line-height:25px;
+            .border-radius(8px);
+            float:right;
+            margin-top:1px;
+            margin-right:10vw;
+            font-size:14px;
+
+            &.disable {
+                color:#363636;
+                border:1px solid #363636;
+            }
+        }
+    }
+
+    .agree {
+        margin-top:3vh;
+        text-align:center;
+        line-height:30px;
+
+        span {
+            display:inline-block;
+            width:22px;
+            height:22px;
+            border:1px solid #7d7d7d;
+            position:relative;
+            top:6px;
+            margin-right:10px;
+            font-size:8px;
+            line-height:18px;
+            overflow:hidden;
+
+            &.active {
+                background-color:#7d7d7d;
+            }
+        }
+
+        a {
+            color:#fff;
+            border-bottom:1px solid #fff;
+        }
+    }
+
+    .button {
+        .percent-box(100%, @footer-height);
+
+        position:absolute;
+        bottom:0;
+        text-align:center;
+
+        >div {
+            border:1px solid #7d7d7d;
+            width:122px;
+            height:24px;
+            line-height:24px;
+            display:inline-block;
+            margin:16px 10px;
+            color:#ddd;
+            border-radius:8px
+        }
+    }
+
+    .rule {
+        .absolute-box(100%, 100%, 0);
+        z-index:12;
+        background-color:rgba(0, 0, 0, 0.6);
+        display:none;
+
+        .wrapper {
+            .relative-box(80%, 60%, 15%, 10%);
+            //.absolute-box(100%, 50%, 25%, 0);
+            //z-index:12;
+            background-image:url('../img/main/form-bg.jpg');
+            background-repeat:no-repeat;
+            background-size:cover;
+            background-position:center;
+
+            span {
+                position:absolute;
+                right:10px;
+                top:10px;
+
+                img {
+                    width:17px;
+                }
+            }
+
+            h3 {
+                position:relative;
+                top:8vh;
+            }
+
+            p {
+                position:relative;
+                top:12vh;
+                line-height:24px;
+            }
+        }
+    }
+
+    .result {
+        .absolute-box(100%, 100%, 0);
+        z-index:12;
+        background-color:rgba(0, 0, 0, 0.6);
+        display:none;
+
+        .wrapper {
+            .relative-box(80%, 20%, 30%, 10%);
+            background-color:#000;
+            background-image:url('../img/main/form-bg.jpg');
+            background-repeat:no-repeat;
+            background-size:cover;
+            background-position:center;
+
+            .text {
+                text-align:center;
+                position:relative;
+                top:5vh;
+            }
+
+
+            .button {
+                .percent-box(100%, @footer-height);
+
+                position:absolute;
+                bottom:0;
+                text-align:center;
+
+                >div {
+                    border:1px solid #7d7d7d;
+                    width:122px;
+                    height:24px;
+                    line-height:24px;
+                    display:inline-block;
+                    margin:16px 10px;
+                    color:#ddd;
+                    border-radius:8px
+                }
+            }
+        }
+
+    }
+}

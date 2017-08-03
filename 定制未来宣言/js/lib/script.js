@@ -57,7 +57,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
             //self.share();
 
-
+            //form.open();
             self.initPageSwiper();
 
         }
@@ -154,7 +154,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     $('.loading').fadeOut();
 
                     // 调试直接显示第三页
-                    sw.slideTo(2);
+                    //sw.slideTo(2);
                 },
                 //onSlideChangeStart: function (swiper) {
                 //    $('#themeSwiper .highlight').removeClass('highlight');
@@ -210,6 +210,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
             console.log(theme)
 
+            var flagForm = true;
+
             if (step == 0) {
 
                 switch (theme) {
@@ -222,6 +224,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                         break;
                 }
 
+                flagForm = false;
                 self.mainSwiper.slideNext();
             }
 
@@ -231,24 +234,32 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     self.appendCity();
                 }
                 else if (theme == 2) {              // 生日祝福
+                    form.open();
                     return;
                 }
                 else if (theme == 8) {
+                    form.open();
                     return;
                 }
                 else {
                     self.appendThirdCommon();
                 }
 
+                flagForm = false;
                 self.mainSwiper.slideNext();
             }
 
             if (step == 2 && customKey == 1) {
 
                 self.appendCustomKey();
+
+                flagForm = false;
                 self.mainSwiper.slideNext();
             }
-
+            
+            if (flagForm) {
+                form.open();
+            }
 
 
             //step++;
@@ -735,6 +746,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
     self.template = {
         loading: '<div class="loading"><span></span></div>',
+        form:'',
         pageSwiper:
             '<div class="declaration jsfix" data-size="no"></div>\
             <div class="swiper-container" id="pageSwiper">\
@@ -909,6 +921,208 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             }
         });
     }
+
+
+    // 留资
+    var form = {}
+
+    form.open = function(){
+
+        if ($('#userFrom').length != 0) {
+            $('#userFrom').show();
+        }
+        else {
+            var formHtml = 
+                '<div class="user-form" id="userForm">\
+                    <h3>让保时捷<br />一眼锁定你</h3>\
+                    <p></p>\
+                    <ul>\
+                        <li><span>您的姓名</span><i></i><input type="text" id="name" maxlength="8" ></li>\
+                        <li><span>您的手机</span><i></i><input type="text" id="mobile" ></li>\
+                        <li><span>验证码　</span><i></i><input type="text" class="code" id="code" ><a href="#" id="sendCode">发送</a></li>\
+                        <li><span>您的车牌</span><i></i><input type="text" id="number" maxlength="10" ></li>\
+                        <li><span>您的车型/品牌</span><input type="text" id="brand" maxlength="10" ></li>\
+                    </ul>\
+                    <div class="agree"><span></span>我已阅读并了解<a href="#">隐私条款</a></div>\
+                    <div class="button"><div class="reset">重来</div><div class="submit">提交</div></div>\
+                    <div class="rule"><div class="wrapper">\
+                        <span><img src="img/icon/close.png"></span>\
+                        <h3>隐私条款</h3>\
+                        <p>保时捷集团或其代理机构可能会通过您提供的信息以及我们已经存储的关于您的信息联系您，包括通过邮件、电话、短消息或者传真的形式，向您介绍有关保时捷的产品和我们提供的服务信息。我们可能会在一段合理的时间内保存您的信息，以便向您提供与我们的产品和服务有关的介绍、邀请函或资讯。 </p>\
+                    </div></div>\
+                    <div class="result"><div class="wrapper">\
+                        <div class="text">姓名不能为空</div>\
+                        <div class="button"><div>确定</div>\</div>\
+                    </div></div>\
+                </div>'
+
+            var text1 = '注册姓名和手机号码<br />即刻将宣言晒到朋友圈或分享给好友<br />填写真实车牌号码<br />2017 年 8 月 15 日 - 2018 年 2 月 16 日<br />活动期间在前往浦东国际机场的路上<br />即可亲眼见证你的留言登上保时捷大屏幕';
+            var text2 = '';
+
+            $('body').append(formHtml);
+            $('#userForm>p').html(text1);
+
+            form.init();
+        }
+    }
+
+    form.agree = false;
+    form.key = '';
+
+    form.init = function () {
+        var userForm = $('#userForm');
+
+        // 同意条款
+        $('.agree span', userForm).hammer().on("tap", function (e) {
+            if (form.agree) {
+                $(this).removeClass('active');
+                form.agree = false;
+            }
+            else {
+                $(this).addClass('active');
+                form.agree = true;
+            }
+        });
+
+        // 规则查看
+        $('.agree a', userForm).hammer().on("tap", function (e) {
+            $('.rule', userForm).show();
+        });
+
+        $('.rule span', userForm).hammer().on("tap", function (e) {
+            $('.rule', userForm).hide();
+        });
+
+        // 错误信息
+        $('.result .button', userForm).hammer().on("tap", function (e) {
+            $('.result', userForm).hide();
+        });
+
+        // 表单验证
+        form.check();
+    }
+
+    form.error = function (s) {
+        var userForm = $('#userForm');
+
+        $('.result .text', userForm).text(s);
+        $('.result', userForm).show();
+    }
+
+    form.check = function () {
+        var userForm = $('#userForm');
+
+        // 短信code验证
+        $('#code', userForm).on('keyup', function () {
+            var code = $(this).val();
+
+
+            if (code.length == 4) {
+                $.ajax({
+                    type : "post",
+                    url : "http://dev.api.happy-share.cn/sms/verify",
+                    data: { key: form.key, code: parseInt(code) },
+                    success: function (args) {
+                        if (args.code == 200) { form.error('验证成功'); }
+                        else { form.error('验证失败'); }
+                    },
+                    error: function (args) {
+                        alert('网络链接失败！')
+                    }
+                });
+            }
+        })
+
+        // 手机验证
+        $('#sendCode').hammer().on("tap", function (e) {
+            var reg = /^0?1[2|3|4|5|6|7|8|9][0-9]\d{8}$/;
+
+            if (!reg.test($('#mobile', userForm).val())) {
+                form.error('请填写正确的手机号码');
+            }
+            else {
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    url: 'http://dev.api.happy-share.cn/sms',
+                    data: { aId: 'C83E1SHG', mobile: parseInt($('#mobile', userForm).val()) },
+                    //data:JSON.stringify({ aid: 'C83E1SHG', mobile: '15502175348' }),
+                    success: function (args) {
+                        if (args.code == 200) {
+                            form.error('发送成功');
+
+                            form.key = args.data.verify_key;
+                            console.log(form.key);
+                        }
+                    },
+                    error: function () {
+                        alert('网络链接失败！')
+                    }
+
+                })
+            }
+        });
+
+        // 表单验证
+        $('.submit', userForm).hammer().on("tap", function (e) {
+            
+            var name = $('#name', userForm).val(),
+                mobile = $('#mobile', userForm).val(),
+                number = $('#number', userForm).val(),
+                brand = $('#brand', userForm).val(),
+                declaration = $('.declaration').text();
+
+
+            if (!form.agree) {
+                form.error('你需要阅读并了解隐私条款');
+                return;
+            }
+
+            if (name == '') {
+                form.error('请填写姓名');
+                return;
+            }
+
+            if (number == '') {
+                form.error('请填写车牌');
+                return;
+            }
+
+            console.log(name)
+            console.log(mobile)
+            console.log(number)
+            console.log(declaration)
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: 'http://dev.api.happy-share.cn/form',
+                data: { aId: '22511818', series: 'test', info1: name, info2: mobile, info3: number, info4: declaration },
+                success: function (args) {
+                    if (args.code == 200) {
+                        form.error('保存成功');
+                    }
+                    else {
+                        alert(args.code)
+                    }
+                },
+                error: function (args) {
+                    alert('网络链接失败！')
+                }
+
+            })
+
+        });
+    }
+
+    form.close = function(){
+        $('#userFrom').hide();
+    }
+
+
+
+
+
 
     return self;
 });
