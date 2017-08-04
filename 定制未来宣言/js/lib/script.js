@@ -9,6 +9,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             $('body').append(self.template.block);
         }
 
+        $('body,html').height(document.body.clientHeight);
+
         // loading界面
         self.preload();
     }
@@ -55,7 +57,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
         function onComplete(e) {
 
-            //self.share();
+            self.share('');
 
             //form.open();
             self.initPageSwiper();
@@ -87,6 +89,27 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         $('body').append(self.template.pageSwiper);
 
         tools.fixPosition(320);
+
+        var x = document.documentElement.clientWidth * -1, y = 1;
+        setInterval(function () {
+            
+            $('.scene-main').css('background-position-x', (x * y) + 'px')
+            y++;
+
+            if (y > 4) { y = 0 }
+        }, 50)
+
+        var a = document.documentElement.clientWidth * -1, b = 1;
+        setInterval(function () {
+
+            $('.scene-index1').css('background-position-x', (a * b) + 'px')
+            b++;
+            if (b > 7) { b = 0 }
+        }, 50)
+
+
+        // 
+        $('.swiper-box').css('top', (document.documentElement.clientWidth / 640) * 484);
 
         // 主体swiper 初始化
         self.pageSwiper = new swiper('#pageSwiper', {
@@ -238,7 +261,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     return;
                 }
                 else if (theme == 8) {
-                    form.open();
+                    if ($('.customThemeSwiper input').val() != '') { form.open(); }
                     return;
                 }
                 else {
@@ -258,6 +281,10 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             }
             
             if (flagForm) {
+                console.log('------------------------------------');
+                if (step == 3 && customKey == 1 && $('.customKeySwiper input').val() == '') { return; }
+                if (step == 2 && $('.commonThirdSwiper .active').length == 0) { return; }
+
                 form.open();
             }
 
@@ -376,8 +403,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
                     swiper.update();
 
-                    //swiper.slideTo(city.length);
-                    $('#regionSwiper .swiper-slide').eq(0).addClass('highlight');
+                    swiper.slideTo(1);
+                    //$('#regionSwiper .swiper-slide').eq(0).addClass('highlight');
 
                     $('.declaration span').text('三亚');
                     $('.declaration span').addClass('active');
@@ -404,7 +431,12 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
                         self.countrySwiper.update();
 
-                        $('#countrySwiper .swiper-slide').eq(0).addClass('highlight');
+                        if ($('#countrySwiper .swiper-slide').length > 1) {
+                            self.countrySwiper.slideTo(1)
+                        }
+                        else {
+                            $('#countrySwiper .swiper-slide').eq(0).addClass('highlight');
+                        }
 
                         // ---------
                         self.citySwiper.removeAllSlides();
@@ -415,7 +447,12 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
                         self.citySwiper.update();
 
-                        $('#citySwiper .swiper-slide').eq(0).addClass('highlight');
+                        if ($('#citySwiper .swiper-slide').length > 1) {
+                            self.citySwiper.slideTo(1)
+                        }
+                        else {
+                            $('#citySwiper .swiper-slide').eq(0).addClass('highlight');
+                        }
 
 
                         var text = $(self.citySwiper.slides[0]).text();
@@ -477,7 +514,12 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
                         self.citySwiper.update();
 
-                        $('#citySwiper .swiper-slide').eq(0).addClass('highlight');
+                        if ($('#citySwiper .swiper-slide').length > 1) {
+                            self.citySwiper.slideTo(1)
+                        }
+                        else {
+                            $('#citySwiper .swiper-slide').eq(0).addClass('highlight');
+                        }
 
                         var text = $(self.countrySwiper.slides[countryIndex]).text();
 
@@ -751,8 +793,13 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             '<div class="declaration jsfix" data-size="no"></div>\
             <div class="swiper-container" id="pageSwiper">\
                 <div class="swiper-wrapper">\
-                    <div class="swiper-slide scene-index1"></div>\
-                    <div class="swiper-slide scene-index2"></div>\
+                    <div class="swiper-slide scene-index1"><div class="arrow"><img src="img/icon/arrow.png"></div></div>\
+                    <div class="swiper-slide scene-index2"><p>\                        想登上浦东机场保时捷大屏幕？<br />\                        想说出你的深切心声？<br />\                        想向挚爱送去表白、为好友献上祝福？<br />\                        或许，仅需如下几步<br /><br />\
+                        Step 1<br />\                        选择你钟意的模板及主题<br /><br />\
+                        Step 2<br />\                        选择你喜欢的未来宣言<br />\                        即刻驭见未来<br />\
+                        或自定义你的深切心声<br />\                        霸屏浦东国际机场<br />\
+                        <div class="arrow"><img src="img/icon/arrow.png"></div>\
+                    </p></div>\
                     <div class="swiper-slide scene-main">\
                         <div class="swiper-box">\
                             <div class="swiper-container" id="mainSwiper">\
@@ -817,20 +864,17 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
 
     // 分享
-    self.share = function () {
+    self.share = function (s) {
         var host = "http://m.canon.com.cn/m/products/printer/pixma/pixmaevent";
         var project = '';
 
         $.ajax({
             type: 'post',
-            url: host + '/share/jssdk',
-            data: { url: window.location.href, m: 'getWxConfig' },
-            //url: 'https://www.tron-m.com/wx/jssdk?m=getWxConfig',
-            //data: { url: window.location.href },
+            url: 'https://api.happy-share.cn/jssdk/?url=' + encodeURIComponent(location.href.split('#')[0]),
             dataType: 'json',
             success: function (args) {
                 ////////////
-                args = args.result;
+                args = args.data;
 
                 wx.config({
                     debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -842,10 +886,10 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 });
 
                 wx.ready(function () {
-                    var url = document.location.href,
-                        title = '111111',
-                        desc = '2222222',
-                        imgUrl = host + '/img/main/sharecover.jpg'
+                    var url = 'http://www.porsche-cnmkt.com/?words=' + (s ? encodeURIComponent(s) : ''),
+                        title = '444444444',
+                        desc = s ? s : '33333333333',
+                        imgUrl = 'http://dutchlady.h5.h5doo.com/Public/h5/dutchlady/summer/image/common/share.jpg';
 
                     wx.onMenuShareTimeline({
                         title: title, // 分享标题
@@ -954,10 +998,15 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                         <div class="text">姓名不能为空</div>\
                         <div class="button"><div>确定</div>\</div>\
                     </div></div>\
+                    <div class="finished">\
+                        <div class="button">提交成功</div>\
+                        <span><img src="img/icon/close.png"></span>\
+                        <div class="tips">点击右上角的<img src="img/icon/more.png"><br/>点击分享 <img src="img/icon/wx.png"> ，分享到朋友圈</div>\
+                    </div>\
                 </div>'
 
             var text1 = '注册姓名和手机号码<br />即刻将宣言晒到朋友圈或分享给好友<br />填写真实车牌号码<br />2017 年 8 月 15 日 - 2018 年 2 月 16 日<br />活动期间在前往浦东国际机场的路上<br />即可亲眼见证你的留言登上保时捷大屏幕';
-            var text2 = '';
+            var text2 = '注册您的真实姓名和手机号码<br />留言审核通过后，您将收到一条来自保时捷的短信通知<br />填写真实车牌号码<br />在 2017 年 8 月 15 日 –  2018 年 2 月 16 日<br />任意时间前往浦东国际机场<br />将有机会在高速公路上亲眼见证你的留言<br />登上保时捷大屏幕';
 
             $('body').append(formHtml);
             $('#userForm>p').html(text1);
@@ -968,6 +1017,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
     form.agree = false;
     form.key = '';
+    form.flagMobile = false;
+    form.flagSubmit = false;
 
     form.init = function () {
         var userForm = $('#userForm');
@@ -995,11 +1046,25 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
         // 错误信息
         $('.result .button', userForm).hammer().on("tap", function (e) {
-            $('.result', userForm).hide();
+            setTimeout(function () {
+                $('.result', userForm).hide();
+            }, 100)
+            
+            userForm.focus()
         });
 
         // 表单验证
         form.check();
+
+        // 发送完成
+        $('.finished .button', userForm).hammer().on("tap", function (e) {
+            $(this).hide();
+            $('.finished .tips, .finished span', userForm).show();
+        });
+
+        $('.finished span, .reset', userForm).hammer().on("tap", function (e) {
+            location.href = location.href;
+        });
     }
 
     form.error = function (s) {
@@ -1023,7 +1088,13 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     url : "http://dev.api.happy-share.cn/sms/verify",
                     data: { key: form.key, code: parseInt(code) },
                     success: function (args) {
-                        if (args.code == 200) { form.error('验证成功'); }
+                        if (args.code == 200) {
+                            form.error('验证成功');
+                            form.flagMobile = true;
+
+                            // 验证完成禁止修改手机号
+                            $('#mobile').attr('readonly', 'readonly');
+                        }
                         else { form.error('验证失败'); }
                     },
                     error: function (args) {
@@ -1065,12 +1136,19 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
         // 表单验证
         $('.submit', userForm).hammer().on("tap", function (e) {
+
+            if (form.flagSubmit) { return; }
             
             var name = $('#name', userForm).val(),
                 mobile = $('#mobile', userForm).val(),
                 number = $('#number', userForm).val(),
                 brand = $('#brand', userForm).val(),
                 declaration = $('.declaration').text();
+
+            if (!form.flagMobile) {
+                form.error('你需要先验证手机');
+                return;
+            }
 
 
             if (!form.agree) {
@@ -1093,20 +1171,27 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             console.log(number)
             console.log(declaration)
 
+            form.flagSubmit = true;
+
             $.ajax({
                 type: 'post',
                 dataType: 'json',
                 url: 'http://dev.api.happy-share.cn/form',
-                data: { aId: '22511818', series: 'test', info1: name, info2: mobile, info3: number, info4: declaration },
+                data: { aId: '22511818', series: '1', info1: name, info2: mobile, info3: number, info4: declaration },
                 success: function (args) {
                     if (args.code == 200) {
-                        form.error('保存成功');
+                        //form.error('保存成功');
+                        self.share(declaration);
+
+                        $('.finished', userForm).show();
                     }
                     else {
+                        form.flagSubmit = false;
                         alert(args.code)
                     }
                 },
                 error: function (args) {
+                    form.flagSubmit = false;
                     alert('网络链接失败！')
                 }
 

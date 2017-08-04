@@ -32,7 +32,7 @@
 });
 
 
-require(["jquery", 'script'], function ($, script) {
+require(["jquery", 'script', 'view', 'tools'], function ($, script, view, tools) {
 
     // 禁止拉动
     $("body").on("touchmove", function (e) {
@@ -43,6 +43,13 @@ require(["jquery", 'script'], function ($, script) {
     //$("body").on("touchstart", function (e) {
     //    e.preventDefault();
     //});
+    var words = tools.getUrlParam('words');
 
-    script.open();    
+    if (words == null) {
+        script.open();
+    }
+    else {
+        view.open();
+    }
+    
 });

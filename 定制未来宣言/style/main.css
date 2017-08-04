@@ -77,10 +77,21 @@ body {
   background-color: #fff;
 }
 .scene-index1 {
-  background-image: url(../img/main/index-1.jpg);
+  background-image: url(../img/main/movie-home.jpg);
   background-position: top center;
-  background-size: contain;
+  background-size: 800%;
+  background-position-x: 0;
   background-repeat: no-repeat;
+}
+.scene-index1 .arrow {
+  text-align: center;
+  width: 100%;
+  height: 25px;
+  bottom: 0;
+  position: absolute;
+}
+.scene-index1 .arrow img {
+  width: 40px;
 }
 .scene-index2 {
   background-image: url(../img/main/index-2.jpg);
@@ -88,19 +99,35 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
 }
+.scene-index2 p {
+  text-align: center;
+  padding-top: 5vh;
+  line-height: 22px;
+}
+.scene-index2 .arrow {
+  text-align: center;
+  width: 100%;
+  height: 25px;
+  bottom: 0;
+  position: absolute;
+}
+.scene-index2 .arrow img {
+  width: 40px;
+}
 .scene-main {
-  background-image: url(../img/main/movie.png);
+  background-image: url(../img/main/movie.jpg);
   background-position: top center;
-  background-size: contain;
+  background-size: 500%;
+  background-position-x: 0;
   background-repeat: no-repeat;
   position: relative;
 }
 .declaration {
   position: absolute;
-  top: 134px;
-  left: 170px;
+  top: 132px;
+  left: 140px;
   overflow: hidden;
-  height: 14px;
+  height: 20px;
   width: 200px;
   color: #fff;
   z-index: 5;
@@ -119,26 +146,27 @@ body {
 }
 .swiper-box {
   width: 100%;
-  height: 175px;
+  height: 200px;
   position: absolute;
-  bottom: 56px;
+  top: 50%;
 }
 .pagination {
   width: 100%;
-  height: 56px;
+  height: 60px;
   position: absolute;
   bottom: 0;
   text-align: center;
 }
 .pagination .button {
-  border: 1px solid #ddd;
+  border: 1px solid #363636;
   width: 122px;
   height: 24px;
-  line-height: 24px;
+  line-height: 22px;
   display: inline-block;
   margin: 16px 10px;
   color: #ddd;
   border-radius: 8px;
+  font-size: 16px;
 }
 #mainSwiper {
   height: 100%;
@@ -150,13 +178,15 @@ body {
   border-bottom: 2px solid #000;
   background-image: url(../img/main/title-bg.png);
   background-position: center;
-  background-repeat: no-repeat;
+  background-repeat: repeat-y;
   background-size: contain;
+  font-size: 16px;
+  margin-bottom: 30px;
 }
 #mainSwiper .indicator {
   position: absolute;
   left: 0;
-  top: 63px;
+  top: 95px;
   width: 50px;
   height: 100px;
   z-index: 10;
@@ -179,7 +209,7 @@ body {
 #themeSwiper,
 #lvxingSwiper,
 #commonSecondSwiper {
-  height: 145px;
+  height: 150px;
   background-color: #000;
   background-image: url(../img/main/swiper-bg1.png);
   background-position: center;
@@ -192,6 +222,7 @@ body {
   line-height: 48px;
   text-align: center;
   color: #535353;
+  font-size: 16px;
 }
 #themeSwiper .swiper-slide span,
 #lvxingSwiper .swiper-slide span,
@@ -205,7 +236,7 @@ body {
 #lvxingSwiper .highlight,
 #commonSecondSwiper .highlight {
   color: #fff;
-  font-size: 16px;
+  font-size: 18px;
 }
 #themeSwiper .highlight span,
 #lvxingSwiper .highlight span,
@@ -245,6 +276,7 @@ body {
   width: 33.33%;
   height: 50px;
   text-align: center;
+  font-size: 16px;
 }
 .commonThirdSwiper ul span {
   border-radius: 8px;
@@ -258,11 +290,14 @@ body {
 .citySwiper {
   background-color: #000;
 }
+#countrySwiper {
+  margin: 0 1%;
+}
 #regionSwiper,
 #countrySwiper,
 #citySwiper {
   height: 145px;
-  width: 30%;
+  width: 32%;
   float: left;
   background-color: #000;
 }
@@ -272,6 +307,7 @@ body {
   line-height: 48px;
   text-align: center;
   color: #535353;
+  font-size: 16px;
 }
 #regionSwiper .swiper-slide span,
 #countrySwiper .swiper-slide span,
@@ -285,7 +321,7 @@ body {
 #countrySwiper .highlight,
 #citySwiper .highlight {
   color: #fff;
-  font-size: 16px;
+  font-size: 18px;
 }
 #regionSwiper .highlight span,
 #countrySwiper .highlight span,
@@ -392,13 +428,13 @@ body {
 }
 .user-form .button {
   width: 100%;
-  height: 56px;
+  height: 60px;
   position: absolute;
   bottom: 0;
   text-align: center;
 }
 .user-form .button > div {
-  border: 1px solid #7d7d7d;
+  border: 1px solid #363636;
   width: 122px;
   height: 24px;
   line-height: 24px;
@@ -416,7 +452,7 @@ body {
   left: 0;
   position: absolute;
   z-index: 12;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   display: none;
 }
 .user-form .rule .wrapper {
@@ -458,7 +494,7 @@ body {
   left: 0;
   position: absolute;
   z-index: 12;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   display: none;
 }
 .user-form .result .wrapper {
@@ -482,7 +518,7 @@ body {
 }
 .user-form .result .wrapper .button {
   width: 100%;
-  height: 56px;
+  height: 60px;
   position: absolute;
   bottom: 0;
   text-align: center;
@@ -496,4 +532,97 @@ body {
   margin: 16px 10px;
   color: #ddd;
   border-radius: 8px;
+}
+.user-form .finished {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  z-index: 12;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none;
+}
+.user-form .finished .button {
+  width: 80%;
+  height: 40px;
+  top: 30%;
+  right: 10%;
+  bottom: 30%;
+  left: 10%;
+  position: absolute;
+  background-color: #242424;
+  text-align: center;
+  line-height: 40px;
+  color: #fff;
+}
+.user-form .finished span {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  display: none;
+}
+.user-form .finished span img {
+  width: 17px;
+}
+.user-form .finished .tips {
+  width: 80%;
+  height: 80px;
+  top: 60px;
+  right: 20px;
+  position: absolute;
+  text-align: right;
+  line-height: 40px;
+  display: none;
+}
+.user-form .finished .tips img {
+  position: relative;
+  top: 3px;
+}
+.shareview {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  background-image: url('../img/main/view.jpg');
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+.shareview .button {
+  width: 100%;
+  height: 60px;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+}
+.shareview .button > span {
+  border: 1px solid #7d7d7d;
+  width: 122px;
+  height: 28px;
+  line-height: 27px;
+  display: inline-block;
+  margin: 16px 10px;
+  color: #ddd;
+  border-radius: 8px;
+}
+.shareview .declaration {
+  position: absolute;
+  top: 282px;
+  left: 150px;
+  overflow: hidden;
+  height: 14px;
+  width: 200px;
+  color: #fff;
+  z-index: 5;
+  font-size: 12px;
+  transform: rotate(25deg);
+  -ms-transform: rotate(25deg);
+  -webkit-transform: rotate(25deg);
+  -moz-transform: rotate(25deg);
+  -o-transform: rotate(25deg);
 }
