@@ -45,7 +45,7 @@ require(["jquery", 'script', 'view', 'tools'], function ($, script, view, tools)
     //});
     var words = tools.getUrlParam('words');
 
-    if (words == null) {
+    if (words == null || words == '') {
         script.open();
     }
     else {

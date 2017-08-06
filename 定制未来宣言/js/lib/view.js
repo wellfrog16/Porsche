@@ -3,6 +3,8 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
+    self.host = 'http://www.porsche-cnmkt.com/app104/'
+
     self.open = function () {
         // 如果是手机端，加载横屏提示
         if (!tools.isPC) {
@@ -71,8 +73,9 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
     self.init = function () {
         $('body').append(self.template.shareview);
         $('.declaration').text(tools.getUrlParam('words'));
+        $('.shareview').show();
 
-        tools.fixPosition(320);
+        tools.fixPosition(640);
 
         self.bindAction();
 
@@ -83,7 +86,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
     self.bindAction = function () {
         $('.shareview .button').hammer().on("tap", function (e) {
-            location.href = 'http://www.porsche-cnmkt.com';
+            location.href = self.host;
         });
     }
 
@@ -92,7 +95,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         loading: '<div class="loading"><span></span></div>',
         shareview: '\
             <div class="shareview">\
-                <div class="declaration jsfix"></div>\
+                <div class="declaration jsfix" data-size="no"></div>\
                 <div class="button"><span>我也要玩</span></div>\
             </div>'
     }
@@ -100,8 +103,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
     // 分享
     self.share = function (s) {
-        var host = "http://m.canon.com.cn/m/products/printer/pixma/pixmaevent";
-        var project = '';
+
 
         $.ajax({
             type: 'post',
@@ -121,10 +123,10 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 });
 
                 wx.ready(function () {
-                    var url = 'http://www.porsche-cnmkt.com/?words=' + (s ? encodeURIComponent(s) : ''),
+                    var url = self.host + '?words=' + (s ? encodeURIComponent(s) : ''),
                         title = '444444444',
                         desc = s ? s : '33333333333',
-                        imgUrl = 'http://dutchlady.h5.h5doo.com/Public/h5/dutchlady/summer/image/common/share.jpg';
+                        imgUrl = 'http://www.porsche-cnmkt.com/img/main/index-1.jpg';
 
                     wx.onMenuShareTimeline({
                         title: title, // 分享标题

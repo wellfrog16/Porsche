@@ -3,6 +3,8 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
+    self.host = 'http://www.porsche-cnmkt.com/app104/'
+
     self.open = function () {
         // 如果是手机端，加载横屏提示
         if (!tools.isPC) {
@@ -84,11 +86,13 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
     var theme = 0, record = 0, customKey = 0, step = 0;
 
+    var custom = false;
+
     self.initPageSwiper = function () {
 
         $('body').append(self.template.pageSwiper);
 
-        tools.fixPosition(320);
+        tools.fixPosition(640);
 
         var x = document.documentElement.clientWidth * -1, y = 1;
         setInterval(function () {
@@ -97,7 +101,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             y++;
 
             if (y > 4) { y = 0 }
-        }, 50)
+        }, 200)
 
         var a = document.documentElement.clientWidth * -1, b = 1;
         setInterval(function () {
@@ -105,7 +109,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             $('.scene-index1').css('background-position-x', (a * b) + 'px')
             b++;
             if (b > 7) { b = 0 }
-        }, 50)
+        }, 200)
 
 
         // 
@@ -177,7 +181,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     $('.loading').fadeOut();
 
                     // 调试直接显示第三页
-                    //sw.slideTo(2);
+                    // sw.slideTo(2);
                 },
                 //onSlideChangeStart: function (swiper) {
                 //    $('#themeSwiper .highlight').removeClass('highlight');
@@ -240,6 +244,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 switch (theme) {
                     case 8:
                         self.appendCustomTheme();
+
                         break;
 
                     default:
@@ -261,7 +266,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     return;
                 }
                 else if (theme == 8) {
-                    if ($('.customThemeSwiper input').val() != '') { form.open(); }
+                    if ($('.customThemeSwiper input').val() != '') { custom = true; form.open(); }
                     return;
                 }
                 else {
@@ -285,6 +290,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 if (step == 3 && customKey == 1 && $('.customKeySwiper input').val() == '') { return; }
                 if (step == 2 && $('.commonThirdSwiper .active').length == 0) { return; }
 
+                if ($('.customKeySwiper input').length >0 && $('.customKeySwiper input').val() != '') { custom = true; }
+
                 form.open();
             }
 
@@ -292,7 +299,11 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             //step++;
         });
 
-        $('.scene-main .pre').hammer().on("tap", function (e) {            
+        $('.scene-main .pre').hammer().on("tap", function (e) {
+
+            $('.customThemeText, .customKeyText').hide();
+            $('.customThemeText input, .customKeyText input').val('');
+
             self.mainSwiper.slidePrev();
             //step--;
         });
@@ -592,14 +603,20 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         self.mainSwiper.appendSlide(self.template.customKeySwiper);
         self.mainSwiper.update();
 
-        $('.customKeySwiper input').on('keyup', function () {
+        $('.customKeyText').show();
 
-            var text = $(this).val();
+        setInterval(function () {
+            var text = $('.customKeyText input').val();
 
-            if (text.length > 4) { return }
+            if (text.length > 4) {
+                $('.customKeyText .input div').text('不能超过4个字符').addClass('active')
+            }
+            else {
+                $('.customKeyText .input div').text('最多只能输入4个字符').removeClass('active')
+            }
 
             if (text != '') {
-                $('.declaration span').text(text);
+                $('.declaration span').text(text.substring(0, 4));
                 $('.declaration span').addClass('active');
             }
             else {
@@ -607,7 +624,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 $('.declaration span').removeClass('active');
             }
 
-        })
+        }, 1000)
     }
 
     self.appendCustomTheme = function () {
@@ -615,14 +632,20 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         self.mainSwiper.appendSlide(self.template.customThemeSwiper);
         self.mainSwiper.update();
 
-        $('.customThemeSwiper input').on('keyup', function () {
+        $('.customThemeText').show();
 
-            var text = $(this).val();
+        setInterval(function () {
+            var text = $('.customThemeText input').val();
 
-            if (text.length > 10) { return }
+            if (text.length > 10) {
+                $('.customThemeText .input div').text('不能超过10个字符').addClass('active')
+            }
+            else {
+                $('.customThemeText .input div').text('最多只能输入10个字符').removeClass('active')
+            }
 
-            $('.declaration').text(text);
-        })
+            $('.declaration').text(text.substring(0,10));
+        }, 1000)
     }
 
     self.appendLvxing = function () {
@@ -790,16 +813,17 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         loading: '<div class="loading"><span></span></div>',
         form:'',
         pageSwiper:
-            '<div class="declaration jsfix" data-size="no"></div>\
+            '<div class="declaration declaration2 jsfix" data-size="no"></div>\
             <div class="swiper-container" id="pageSwiper">\
                 <div class="swiper-wrapper">\
-                    <div class="swiper-slide scene-index1"><div class="arrow"><img src="img/icon/arrow.png"></div></div>\
-                    <div class="swiper-slide scene-index2"><p>\                        想登上浦东机场保时捷大屏幕？<br />\                        想说出你的深切心声？<br />\                        想向挚爱送去表白、为好友献上祝福？<br />\                        或许，仅需如下几步<br /><br />\
-                        Step 1<br />\                        选择你钟意的模板及主题<br /><br />\
-                        Step 2<br />\                        选择你喜欢的未来宣言<br />\                        即刻驭见未来<br />\
-                        或自定义你的深切心声<br />\                        霸屏浦东国际机场<br />\
+                    <div class="swiper-slide scene-index1">\
+                        <img src="img/main/shadow.png" class="shadow">\
+                        <img src="img/main/word.png" class="word jsfix">\
+                        <div class="arrow"><img src="img/icon/arrow.png"></div></div>\
+                    <div class="swiper-slide scene-index2">\
+                        <img src="img/main/method.png">\
                         <div class="arrow"><img src="img/icon/arrow.png"></div>\
-                    </p></div>\
+                    </div>\
                     <div class="swiper-slide scene-main">\
                         <div class="swiper-box">\
                             <div class="swiper-container" id="mainSwiper">\
@@ -813,6 +837,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                                     </div>\
                                 </div>\
                             </div>\
+                            <div class="customKeyText"><div class="input"><input type="text"><div>最多只能输入4个字符</div></div></div>\
+                            <div class="customThemeText"><div class="input"><input type="text"><div>最多只能输入10个字符</div></div></div>\
                         </div>\
                         <div class="pagination"><div class="pre button">上一步</div><div class="next button">下一步</div></div>\
                     </div>\
@@ -853,20 +879,16 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         customKeySwiper:
             '<div class="swiper-slide customKeySwiper">\
                 <div class="header">打造专属霸屏</div>\
-                <div><input type="text"></div>\
             </div>',
         customThemeSwiper:
             '<div class="swiper-slide customThemeSwiper">\
                 <div class="header">打造专属霸屏</div>\
-                <div><input type="text"></div>\
             </div>'
     }
 
 
     // 分享
     self.share = function (s) {
-        var host = "http://m.canon.com.cn/m/products/printer/pixma/pixmaevent";
-        var project = '';
 
         $.ajax({
             type: 'post',
@@ -886,10 +908,10 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 });
 
                 wx.ready(function () {
-                    var url = 'http://www.porsche-cnmkt.com/?words=' + (s ? encodeURIComponent(s) : ''),
+                    var url = self.host + '?words=' + (s ? encodeURIComponent(s) : ''),
                         title = '444444444',
                         desc = s ? s : '33333333333',
-                        imgUrl = 'http://dutchlady.h5.h5doo.com/Public/h5/dutchlady/summer/image/common/share.jpg';
+                        imgUrl = 'http://www.porsche-cnmkt.com/img/main/index-1.jpg';
 
                     wx.onMenuShareTimeline({
                         title: title, // 分享标题
@@ -982,7 +1004,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     <p></p>\
                     <ul>\
                         <li><span>您的姓名</span><i></i><input type="text" id="name" maxlength="8" ></li>\
-                        <li><span>您的手机</span><i></i><input type="text" id="mobile" ></li>\
+                        <li><span>您的手机</span><i></i><input type="text" id="mobile"  value="139123456789"></li>\
                         <li><span>验证码　</span><i></i><input type="text" class="code" id="code" ><a href="#" id="sendCode">发送</a></li>\
                         <li><span>您的车牌</span><i></i><input type="text" id="number" maxlength="10" ></li>\
                         <li><span>您的车型/品牌</span><input type="text" id="brand" maxlength="10" ></li>\
@@ -1000,16 +1022,24 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     </div></div>\
                     <div class="finished">\
                         <div class="button">提交成功</div>\
-                        <span><img src="img/icon/close.png"></span>\
-                        <div class="tips">点击右上角的<img src="img/icon/more.png"><br/>点击分享 <img src="img/icon/wx.png"> ，分享到朋友圈</div>\
+                    </div>\
+                    <div class="shareview">\
+                        <div class="declaration jsfix" data-size="no"></div>\
+                        <div class="button"><span class="reset">再玩一次</span><span class="share">分享好友</span></div>\
+                        <div class="wrapper">\
+                            <span><img src="img/icon/close.png"></span>\
+                            <div class="tips">点击右上角的<img src="img/icon/more.png"><br/>点击分享 <img src="img/icon/wx.png"> ，分享到朋友圈</div>\
+                        </div>\
                     </div>\
                 </div>'
 
             var text1 = '注册姓名和手机号码<br />即刻将宣言晒到朋友圈或分享给好友<br />填写真实车牌号码<br />2017 年 8 月 15 日 - 2018 年 2 月 16 日<br />活动期间在前往浦东国际机场的路上<br />即可亲眼见证你的留言登上保时捷大屏幕';
-            var text2 = '注册您的真实姓名和手机号码<br />留言审核通过后，您将收到一条来自保时捷的短信通知<br />填写真实车牌号码<br />在 2017 年 8 月 15 日 –  2018 年 2 月 16 日<br />任意时间前往浦东国际机场<br />将有机会在高速公路上亲眼见证你的留言<br />登上保时捷大屏幕';
+            var text2 = '注册您的真实姓名和手机号码<br />留言审核通过后<br />您将收到一条来自保时捷的短信通知<br />填写真实车牌号码<br />在 2017 年 8 月 15 日 –  2018 年 2 月 16 日<br />任意时间前往浦东国际机场<br />将有机会在高速公路上亲眼见证你的留言<br />登上保时捷大屏幕';
 
             $('body').append(formHtml);
-            $('#userForm>p').html(text1);
+            $('#userForm>p').html(custom ? text2 : text1);
+
+            tools.fixPosition(640);
 
             form.init();
         }
@@ -1057,12 +1087,16 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         form.check();
 
         // 发送完成
-        $('.finished .button', userForm).hammer().on("tap", function (e) {
-            $(this).hide();
-            $('.finished .tips, .finished span', userForm).show();
+        $('.shareview .share', userForm).hammer().on("tap", function (e) {
+            $('.shareview .wrapper', userForm).show();
         });
 
-        $('.finished span, .reset', userForm).hammer().on("tap", function (e) {
+        $('.shareview .wrapper span', userForm).hammer().on("tap", function (e) {
+            $('.shareview .wrapper', userForm).hide();
+        });
+
+        $('.reset', userForm).hammer().on("tap", function (e) {
+            //location.href = 'http://www.porsche-cnmkt.com';
             location.href = location.href;
         });
     }
@@ -1108,6 +1142,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         $('#sendCode').hammer().on("tap", function (e) {
             var reg = /^0?1[2|3|4|5|6|7|8|9][0-9]\d{8}$/;
 
+            return;
+
             if (!reg.test($('#mobile', userForm).val())) {
                 form.error('请填写正确的手机号码');
             }
@@ -1143,12 +1179,12 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 mobile = $('#mobile', userForm).val(),
                 number = $('#number', userForm).val(),
                 brand = $('#brand', userForm).val(),
-                declaration = $('.declaration').text();
+                declaration = $('.declaration2').text();
 
-            if (!form.flagMobile) {
-                form.error('你需要先验证手机');
-                return;
-            }
+            //if (!form.flagMobile) {
+            //    form.error('你需要先验证手机');
+            //    return;
+            //}
 
 
             if (!form.agree) {
@@ -1177,13 +1213,20 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 type: 'post',
                 dataType: 'json',
                 url: 'http://dev.api.happy-share.cn/form',
-                data: { aId: '22511818', series: '1', info1: name, info2: mobile, info3: number, info4: declaration },
+                data: { aId: '22511818', series: '1', info1: name, info2: mobile, info3: number + '#' + brand, info4: (custom ? '1' : '0') + '#' + declaration },
                 success: function (args) {
                     if (args.code == 200) {
                         //form.error('保存成功');
                         self.share(declaration);
 
+                        $('.shareview .declaration').text(declaration);
                         $('.finished', userForm).show();
+                        $('.shareview', userForm).hide();
+
+                        setTimeout(function () {
+                            $('.finished', userForm).fadeOut();
+                            $('.shareview', userForm).show();
+                        }, 1000)
                     }
                     else {
                         form.flagSubmit = false;
