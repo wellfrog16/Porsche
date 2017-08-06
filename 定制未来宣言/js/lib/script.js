@@ -3,7 +3,7 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
-    self.host = 'http://www.porsche-cnmkt.com/app104/'
+    self.host = 'http://www.porsche-cnmkt.com/app106/'
 
     self.open = function () {
         // 如果是手机端，加载横屏提示
@@ -48,8 +48,20 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         loader.maintainScriptOrder = true;
 
         var source = [
+          { 'src': 'main/form-bg.jpg' },
           { 'src': 'main/index-1.jpg' },
-          { 'src': 'main/index-2.jpg' }
+          { 'src': 'main/index-2.jpg' },
+          { 'src': 'main/landscape.png' },
+          { 'src': 'main/method.png' },
+          { 'src': 'main/movie-home.jpg' },
+          { 'src': 'main/movie.jpg' },
+          { 'src': 'main/movie.png' },
+          { 'src': 'main/movie2.jpg' },
+          { 'src': 'main/shadow.png' },
+          { 'src': 'main/swiper-bg1.png' },
+          { 'src': 'main/title-bg.png' },
+          { 'src': 'main/view.jpg' },
+          { 'src': 'main/word.png' }
         ]
 
         loader.on("progress", onProgress);
@@ -811,7 +823,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
     self.template = {
         loading: '<div class="loading"><span></span></div>',
-        form:'',
+        block: '<div class="block"><img src="img/main/landscape.png" /><br /><span>竖屏浏览，体验更佳</span></div>',
         pageSwiper:
             '<div class="declaration declaration2 jsfix" data-size="no"></div>\
             <div class="swiper-container" id="pageSwiper">\

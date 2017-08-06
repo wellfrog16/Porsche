@@ -3,7 +3,7 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
-    self.host = 'http://www.porsche-cnmkt.com/app104/'
+    self.host = 'http://www.porsche-cnmkt.com/app106/'
 
     self.open = function () {
         // 如果是手机端，加载横屏提示
@@ -93,6 +93,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
     self.template = {
         loading: '<div class="loading"><span></span></div>',
+        block: '<div class="block"><img src="img/main/landscape.png" /><br /><span>竖屏浏览，体验更佳</span></div>',
         shareview: '\
             <div class="shareview">\
                 <div class="declaration jsfix" data-size="no"></div>\
