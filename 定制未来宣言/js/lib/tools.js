@@ -43,6 +43,8 @@
                 o.css(item, scaleNum * parseInt(o.css(item)));
             });
         });
+
+        ele.removeClass('jsfix');
     }
 
     return self;

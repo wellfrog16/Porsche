@@ -69,12 +69,12 @@ body {
   height: 100%;
   position: absolute;
   text-align: center;
-  color: #333;
+  color: #fff;
   top: 0;
   left: 0;
   line-height: 90vh;
   z-index: 99;
-  background-color: #fff;
+  background-color: #000;
 }
 .scene-index1 {
   background-image: url(../img/main/movie-home.jpg);
@@ -141,7 +141,7 @@ body {
   width: 200px;
   color: #fff;
   z-index: 5;
-  font-size: 12px;
+  font-size: 10px;
   transform: rotate(25deg);
   -ms-transform: rotate(25deg);
   -webkit-transform: rotate(25deg);
@@ -162,7 +162,7 @@ body {
 }
 .pagination {
   width: 100%;
-  height: 80px;
+  height: 70px;
   position: absolute;
   bottom: 0;
   text-align: center;
@@ -428,7 +428,7 @@ body {
   border: 1px solid #363636;
 }
 .user-form .agree {
-  margin-top: 3vh;
+  margin-top: 2vh;
   text-align: center;
   line-height: 30px;
 }
@@ -445,7 +445,9 @@ body {
   overflow: hidden;
 }
 .user-form .agree span.active {
-  background-color: #7d7d7d;
+  background-image: url('../img/icon/agree.png');
+  background-size: contain;
+  background-position: center;
 }
 .user-form .agree a {
   color: #fff;
@@ -453,9 +455,8 @@ body {
 }
 .user-form .button {
   width: 100%;
-  height: 80px;
+  height: 70px;
   position: absolute;
-  bottom: 0;
   text-align: center;
 }
 .user-form .button > div {
@@ -535,6 +536,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  min-height: 100px;
 }
 .user-form .result .wrapper .text {
   text-align: center;
@@ -543,9 +545,9 @@ body {
 }
 .user-form .result .wrapper .button {
   width: 100%;
-  height: 80px;
+  height: 70px;
   position: absolute;
-  bottom: 0;
+  top: 8vh;
   text-align: center;
 }
 .user-form .result .wrapper .button > div {
@@ -599,7 +601,7 @@ body {
 }
 .shareview .button {
   width: 100%;
-  height: 80px;
+  height: 70px;
   position: absolute;
   bottom: 0;
   text-align: center;
@@ -619,11 +621,11 @@ body {
   top: 568px;
   left: 335px;
   overflow: hidden;
-  height: 14px;
+  height: 18px;
   width: 200px;
   color: #fff;
   z-index: 10;
-  font-size: 12px;
+  font-size: 10px;
   transform: rotate(25deg);
   -ms-transform: rotate(25deg);
   -webkit-transform: rotate(25deg);
@@ -669,7 +671,7 @@ body {
   text-align: center;
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 90%;
   z-index: 20;
   top: 40px;
   display: none;

@@ -3,7 +3,7 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
-    self.host = 'http://www.porsche-cnmkt.com/app106/'
+    self.host = 'http://www.porsche-cnmkt.com/app156/'
 
     self.open = function () {
         // 如果是手机端，加载横屏提示
@@ -98,7 +98,9 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
     var theme = 0, record = 0, customKey = 0, step = 0;
 
-    var custom = false;
+    var custom = false, flagCity = false;
+
+    var timer = null;
 
     self.initPageSwiper = function () {
 
@@ -299,8 +301,10 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             
             if (flagForm) {
                 console.log('------------------------------------');
+                console.log(step)
+                console.log(customKey)
                 if (step == 3 && customKey == 1 && $('.customKeySwiper input').val() == '') { return; }
-                if (step == 2 && $('.commonThirdSwiper .active').length == 0) { return; }
+                if (step == 2 && $('.commonThirdSwiper .active').length == 0 && !flagCity) { return; }
 
                 if ($('.customKeySwiper input').length >0 && $('.customKeySwiper input').val() != '') { custom = true; }
 
@@ -315,6 +319,14 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
             $('.customThemeText, .customKeyText').hide();
             $('.customThemeText input, .customKeyText input').val('');
+
+            clearInterval(timer);
+
+            flagCity = false;
+
+            if ($('.block').length == 0) {
+                $('body').append(self.template.block);
+            }
 
             self.mainSwiper.slidePrev();
             //step--;
@@ -405,6 +417,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         self.mainSwiper.update();
 
         initRegion();
+
+        flagCity = true;
 
         var regionIndex = 0, countryIndex = 0, cityIndex = 0;
 
@@ -610,14 +624,16 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
     }
 
 
+
     self.appendCustomKey = function () {
         self.mainSwiper.removeSlide([3]);
         self.mainSwiper.appendSlide(self.template.customKeySwiper);
         self.mainSwiper.update();
 
         $('.customKeyText').show();
+        $('.block').remove();
 
-        setInterval(function () {
+        timer = setInterval(function () {
             var text = $('.customKeyText input').val();
 
             if (text.length > 4) {
@@ -645,8 +661,9 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         self.mainSwiper.update();
 
         $('.customThemeText').show();
+        $('.block').remove();
 
-        setInterval(function () {
+        timer = setInterval(function () {
             var text = $('.customThemeText input').val();
 
             if (text.length > 10) {
@@ -659,46 +676,6 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             $('.declaration').text(text.substring(0,10));
         }, 1000)
     }
-
-    self.appendLvxing = function () {
-        self.mainSwiper.removeSlide([1, 2]);
-        self.mainSwiper.appendSlide(self.template.lvxingSwiper);
-        self.mainSwiper.update();
-
-        self.lvxingSwiper = new swiper('#lvxingSwiper', {
-            direction: 'vertical',
-            freeModeMomentumRatio: 0.2,
-            slidesPerView: 3,
-            freeMode: true,
-            freeModeSticky: true,
-            centeredSlides: true,
-            loop: true,
-            loopAdditionalSlides: self.data[theme].m.length,
-            onInit: function (swiper) {
-                // 更新数据
-                $.each(self.data[theme].m, function (index, item) {
-                    swiper.appendSlide('<div class="swiper-slide">' + item.n + '</div>');
-                })
-
-                swiper.update();
-
-                swiper.slideTo(self.data[theme].m.length);
-
-            },
-            onSlideChangeStart: function (swiper) {
-                $('#lvxingSwiper .highlight').removeClass('highlight');
-
-            },
-            onSlideChangeEnd: function (swiper) {
-
-                theme = swiper.activeIndex;
-
-                $('#lvxingSwiper .swiper-slide').eq(swiper.activeIndex).addClass('highlight');
-
-            }
-        });
-    }
-
 
     self.data = [
         {
@@ -921,8 +898,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
                 wx.ready(function () {
                     var url = self.host + '?words=' + (s ? encodeURIComponent(s) : ''),
-                        title = '444444444',
-                        desc = s ? s : '33333333333',
+                        title = '定制你的未来宣言 驭见未来',
+                        desc = s ? s : '定制你的未来宣言 驭见未来',
                         imgUrl = 'http://www.porsche-cnmkt.com/img/main/index-1.jpg';
 
                     wx.onMenuShareTimeline({
@@ -1016,13 +993,13 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     <p></p>\
                     <ul>\
                         <li><span>您的姓名</span><i></i><input type="text" id="name" maxlength="8" ></li>\
-                        <li><span>您的手机</span><i></i><input type="text" id="mobile"  value="139123456789"></li>\
-                        <li><span>验证码　</span><i></i><input type="text" class="code" id="code" ><a href="#" id="sendCode">发送</a></li>\
+                        <li><span>您的手机</span><i></i><input type="text" id="mobile"  value=""></li>\
+                        <li><span>验证码　</span><i></i><input type="text" class="code" id="code" ><a href="#" id="sendCode">发送<span></span></a></li>\
                         <li><span>您的车牌</span><i></i><input type="text" id="number" maxlength="10" ></li>\
                         <li><span>您的车型/品牌</span><input type="text" id="brand" maxlength="10" ></li>\
                     </ul>\
                     <div class="agree"><span></span>我已阅读并了解<a href="#">隐私条款</a></div>\
-                    <div class="button"><div class="reset">重来</div><div class="submit">提交</div></div>\
+                    <div class="button"><div class="back">上一步</div><div class="submit">提交</div></div>\
                     <div class="rule"><div class="wrapper">\
                         <span><img src="img/icon/close.png"></span>\
                         <h3>隐私条款</h3>\
@@ -1065,6 +1042,16 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
     form.init = function () {
         var userForm = $('#userForm');
 
+        // 隐藏横屏
+        $('.block').remove();
+
+        // 隐藏选择层
+        //$('#mainSwiper').hide();
+
+        // 调整buttton坐标
+        $('#userForm>.button').css('top', document.body.clientHeight - 75);
+
+
         // 同意条款
         $('.agree span', userForm).hammer().on("tap", function (e) {
             if (form.agree) {
@@ -1076,6 +1063,13 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 form.agree = true;
             }
         });
+
+        // 关闭表单，返回之前的页面
+        $('.back', userForm).hammer().on("tap", function (e) {
+            form.close();
+            //$('#mainSwiper').show();
+        });
+
 
         // 规则查看
         $('.agree a', userForm).hammer().on("tap", function (e) {
@@ -1107,9 +1101,9 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             $('.shareview .wrapper', userForm).hide();
         });
 
-        $('.reset', userForm).hammer().on("tap", function (e) {
+        $('.reset').hammer().on("tap", function (e) {
             //location.href = 'http://www.porsche-cnmkt.com';
-            location.href = location.href;
+            location.href = self.host;
         });
     }
 
@@ -1154,12 +1148,25 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         $('#sendCode').hammer().on("tap", function (e) {
             var reg = /^0?1[2|3|4|5|6|7|8|9][0-9]\d{8}$/;
 
-            return;
+            if ($(this).attr('class') == 'disable') { return; }
 
             if (!reg.test($('#mobile', userForm).val())) {
                 form.error('请填写正确的手机号码');
             }
             else {
+                $('#sendCode').addClass('disable');
+                var x = 60, t = setInterval(function () {
+
+                    if (--x == 0) {
+                        clearInterval(t);
+                        $('#sendCode').removeClass('disable');
+                        $('#sendCode span').text('');
+                    }
+                    else {
+                        $('#sendCode span').text(' (' + x + ')');
+                    }
+                }, 1000)
+
                 $.ajax({
                     type: 'post',
                     dataType: 'json',
@@ -1168,8 +1175,10 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     //data:JSON.stringify({ aid: 'C83E1SHG', mobile: '15502175348' }),
                     success: function (args) {
                         if (args.code == 200) {
+
                             form.error('发送成功');
 
+                            alert('请输入验证码:' + args.data.code)
                             form.key = args.data.verify_key;
                             console.log(form.key);
                         }
@@ -1193,10 +1202,10 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 brand = $('#brand', userForm).val(),
                 declaration = $('.declaration2').text();
 
-            //if (!form.flagMobile) {
-            //    form.error('你需要先验证手机');
-            //    return;
-            //}
+            if (!form.flagMobile) {
+                form.error('你需要先验证手机');
+                return;
+            }
 
 
             if (!form.agree) {
@@ -1256,7 +1265,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
     }
 
     form.close = function(){
-        $('#userFrom').hide();
+        //$('#userForm').hide();
+        $('#userForm').remove();
     }
 
 

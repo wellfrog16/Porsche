@@ -3,13 +3,15 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
-    self.host = 'http://www.porsche-cnmkt.com/app106/'
+    self.host = 'http://www.porsche-cnmkt.com/app156/'
 
     self.open = function () {
         // 如果是手机端，加载横屏提示
         if (!tools.isPC) {
             $('body').append(self.template.block);
         }
+
+        $('body,html').height(document.body.clientHeight);
 
         // loading界面
         self.preload();
@@ -125,8 +127,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
                 wx.ready(function () {
                     var url = self.host + '?words=' + (s ? encodeURIComponent(s) : ''),
-                        title = '444444444',
-                        desc = s ? s : '33333333333',
+                        title = '定制你的未来宣言 驭见未来',
+                        desc = s ? s : '定制你的未来宣言 驭见未来',
                         imgUrl = 'http://www.porsche-cnmkt.com/img/main/index-1.jpg';
 
                     wx.onMenuShareTimeline({

@@ -58,12 +58,12 @@ html, body {
 
     position:absolute;
     text-align:center;
-    color:#333;
+    color:#fff;
     top:0;
     left:0;
     line-height:90vh;
     z-index:99;
-    background-color:#fff;
+    background-color:#000;
 }
 
 // ------------------------------------secene-----------------------------------------
@@ -133,7 +133,7 @@ html, body {
     width:200px;
     color:#fff;
     z-index:5;
-    font-size:12px;
+    font-size:10px;
     //white-space:nowrap;
 
     .transform(rotate(25deg));
@@ -147,7 +147,7 @@ html, body {
     }
 }
 
-@footer-height:80px;
+@footer-height:70px;
 
 .swiper-box {
     .percent-box(100%, 200px);
@@ -451,7 +451,7 @@ html, body {
     }
 
     .agree {
-        margin-top:3vh;
+        margin-top:2vh;
         text-align:center;
         line-height:30px;
 
@@ -468,7 +468,9 @@ html, body {
             overflow:hidden;
 
             &.active {
-                background-color:#7d7d7d;
+                background-image:url('../img/icon/agree.png');
+                background-size:contain;
+                background-position:center;
             }
         }
 
@@ -482,7 +484,7 @@ html, body {
         .percent-box(100%, @footer-height);
 
         position:absolute;
-        bottom:0;
+        //bottom:0;
         text-align:center;
 
         >div {
@@ -548,6 +550,7 @@ html, body {
             background-repeat:no-repeat;
             background-size:cover;
             background-position:center;
+            min-height:100px;
 
             .text {
                 text-align:center;
@@ -560,7 +563,7 @@ html, body {
                 .percent-box(100%, @footer-height);
 
                 position:absolute;
-                bottom:0;
+                top:8vh;
                 text-align:center;
 
                 >div {
@@ -628,11 +631,11 @@ html, body {
         top:568px;
         left:335px;
         overflow:hidden;
-        height:14px;
+        height:18px;
         width:200px;
         color:#fff;
         z-index:10;
-        font-size:12px;
+        font-size:10px;
         //white-space:nowrap;
 
         .transform(rotate(25deg));
@@ -674,7 +677,7 @@ html, body {
     text-align:center;
     position:absolute;
     width:100%;
-    height:100%;
+    height:90%;
     z-index:20;
     top:40px;
     display:none;
