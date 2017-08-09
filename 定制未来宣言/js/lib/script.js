@@ -3,7 +3,7 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
-    self.host = 'http://www.porsche-cnmkt.com/app156/'
+    self.host = 'http://www.porsche-cnmkt.com/app164/'
 
     self.open = function () {
         // 如果是手机端，加载横屏提示
@@ -348,8 +348,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             freeMode: true,
             freeModeSticky: true,
             centeredSlides: true,
-            loop: true,
-            loopAdditionalSlides: self.data[theme].m.length,
+            //loop: true,
+            //loopAdditionalSlides: self.data[theme].m.length,
             onInit: function (swiper) {
                 // 更新数据
                 $.each(self.data[theme].m, function (index, item) {
@@ -358,8 +358,9 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
                 swiper.update();
 
-                swiper.slideTo(self.data[theme].m.length);
-
+                //swiper.slideTo(0);
+                $('#commonSecondSwiper .swiper-slide').eq(0).addClass('highlight');
+                $('.declaration').html(self.data[theme].m[0].n);
             },
             onTransitionStart: function (swiper) {
                 $('#commonSecondSwiper .highlight').removeClass('highlight');
