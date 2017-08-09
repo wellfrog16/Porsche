@@ -96,11 +96,16 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
     self.lvxingSwiper = null;
     self.lvxingIndex = 0;
 
-    var theme = 0, record = 0, customKey = 0, step = 0;
+    var theme = 0, record = 0, customKey = 0;
 
     var custom = false, flagCity = false;
 
     var timer = null;
+
+    //------------------------
+
+    var step = 0;
+
 
     self.initPageSwiper = function () {
 
@@ -153,9 +158,15 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 onlyExternal: true,
                 onInit: function (swiper) { initThemeSwiper(sw); },
                 onTransitionEnd: function (swiper) {
-
                     swiper.activeIndex > swiper.previousIndex ? step++ : step--;
 
+                    // 
+                    if (step == 0) { slogan.clear(); }
+
+                    // 自动更新宣言
+                    if (step == 1) { slogan.update(); }
+
+                    //
                 }
             });
         }
@@ -173,17 +184,17 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 centeredSlides: true,
                 slideToClickedSlide: true,
                 loop: true,
-                loopAdditionalSlides: self.data.length,
+                loopAdditionalSlides: slogan.table.slogan.length,
                 onInit: function (swiper) {
 
                     // 更新数据
-                    $.each(self.data, function (index, item) {
-                        swiper.appendSlide('<div class="swiper-slide">' + item.n + '</div>');
+                    $.each(slogan.table.slogan, function (index, item) {
+                        swiper.appendSlide('<div class="swiper-slide">' + item.name + '</div>');
                     })
 
                     swiper.update();
 
-                    swiper.slideTo(self.data.length);
+                    swiper.slideTo(slogan.table.slogan.length);
 
                     // 第一个默认高亮
                     $('#themeSwiper .swiper-slide').eq(swiper.activeIndex).addClass('highlight');
@@ -197,35 +208,15 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     // 调试直接显示第三页
                     // sw.slideTo(2);
                 },
-                //onSlideChangeStart: function (swiper) {
-                //    $('#themeSwiper .highlight').removeClass('highlight');
-
-                //},
                 onTransitionStart: function () {
                     $('#themeSwiper .highlight').removeClass('highlight');
                 },
-                //onSlideChangeEnd: function (swiper) {
-
-                //    self.themeIndex = swiper.activeIndex;
-
-                //    $('.themeSwiper li').removeClass('highlight');
-                //    $('.themeSwiper li').eq(swiper.realIndex).addClass('highlight');
-
-                //    //console.log($('#themeSwiper .swiper-slide').length);
-                //    $('#themeSwiper .swiper-slide').eq(swiper.activeIndex).addClass('highlight');
-
-                //    theme = swiper.realIndex;
-                //},
                 onTransitionEnd: function (swiper) {
-                    self.themeIndex = swiper.activeIndex;
-
-                    $('.themeSwiper li').removeClass('highlight');
-                    $('.themeSwiper li').eq(swiper.realIndex).addClass('highlight');
-
+                    $('.themeSwiper li').removeClass('highlight').eq(swiper.realIndex).addClass('highlight');
                     $('#themeSwiper .swiper-slide').eq(swiper.activeIndex).addClass('highlight');
 
+                    slogan.selected.first = swiper.realIndex;
                     theme = swiper.realIndex;
-                    console.log('theme=' + theme)
                 }
             });
         }
@@ -239,20 +230,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
     self.bindAction = function () {
         $('.scene-main .next').hammer().on("tap", function (e) {
 
-            //self.mainSwiper.params.effect = 'cube';
-            //self.mainSwiper.update();
-            //self.mainSwiper.activeIndex
-
-            //console.log(self.themeIndex)
-
-            //console.log(self.mainSwiper.previousIndex)
-
-            //console.log(self.currentSwiper)
-
-            console.log(theme)
-
             var flagForm = true;
-
             if (step == 0) {
 
                 switch (theme) {
@@ -303,10 +281,11 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 console.log('------------------------------------');
                 console.log(step)
                 console.log(customKey)
-                if (step == 3 && customKey == 1 && $('.customKeySwiper input').val() == '') { return; }
+
+                if (step == 3 && customKey == 1 && $('.customKeyText input').val() == '') { return; }
                 if (step == 2 && $('.commonThirdSwiper .active').length == 0 && !flagCity) { return; }
 
-                if ($('.customKeySwiper input').length >0 && $('.customKeySwiper input').val() != '') { custom = true; }
+                if ($('.customKeyText input').length > 0 && $('.customKeyText input').val() != '') { custom = true; }
 
                 form.open();
             }
@@ -341,7 +320,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         self.mainSwiper.appendSlide(self.template.commonSecondSwiper);
         self.mainSwiper.update();
 
-        $('.commonSecondSwiper .header').text(self.data[theme].title);
+        //$('.commonSecondSwiper .header').text(slogan.data[theme].title);
+        slogan.setTitle($('.commonSecondSwiper .header'));
 
         self.commonSecondSwiper = new swiper('#commonSecondSwiper', {
             direction: 'vertical',
@@ -351,18 +331,20 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             freeModeSticky: true,
             centeredSlides: true,
             //loop: true,
-            //loopAdditionalSlides: self.data[theme].m.length,
+            //loopAdditionalSlides: slogan.data[theme].m.length,
             onInit: function (swiper) {
                 // 更新数据
-                $.each(self.data[theme].m, function (index, item) {
-                    swiper.appendSlide('<div class="swiper-slide">' + item.n + '</div>');
+                $.each(slogan.table.slogan[slogan.selected.first].list, function (index, item) {
+                    swiper.appendSlide('<div class="swiper-slide">' + item.name + '</div>');
                 })
 
                 swiper.update();
 
                 //swiper.slideTo(0);
                 $('#commonSecondSwiper .swiper-slide').eq(0).addClass('highlight');
-                $('.declaration').html(self.data[theme].m[0].n);
+                //$('.declaration').html(slogan.data[theme].m[0].n);
+
+                
 
                 //$('.declaration').arctext({ radius: 400 });
             },
@@ -374,16 +356,17 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 $('#commonSecondSwiper .swiper-slide').eq(swiper.activeIndex).addClass('highlight');
 
 
-                var text = $('<div id="qq">' + self.data[theme].m[swiper.realIndex].n + '</div>')
+                //var text = $('<div id="qq">' + slogan.data[theme].m[swiper.realIndex].n + '</div>')
 
-                //$('.declaration').html(self.data[theme].m[swiper.realIndex].n).arctext({ radius: 400 });
-                $('.declaration').html(text);
+                //$('.declaration').html(slogan.data[theme].m[swiper.realIndex].n).arctext({ radius: 400 });
+                //$('.declaration').html(text);
 
-                $('#qq').arctext({ radius: 1000 });
+                //$('#qq').arctext({ radius: 1000 });
                 
-
+                
+                slogan.selected.second = swiper.realIndex;
+                slogan.update();
                 record = swiper.realIndex;
-                console.log('record='+ record)
             }
         });
     }
@@ -394,31 +377,34 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         self.mainSwiper.appendSlide(self.template.commonThirdSwiper);
         self.mainSwiper.update();
 
-        $.each(self.data[theme].m[record].m, function (index, item) {
+        $.each(slogan.table.slogan[slogan.selected.first].list[slogan.selected.second].key, function (index, item) {
             $('.commonThirdSwiper ul').append('<li><span>' + item + '</span></li>');
         })
 
         $('.commonThirdSwiper ul').append('<li><span>自定义</span></li>');
 
-        $('.commonThirdSwiper ul li').each(function () {
+        $('.commonThirdSwiper ul li').each(function (index) {
             $(this).hammer().on("tap", function (e) {
                 $('.commonThirdSwiper ul li span').removeClass('active');
                 $('span', $(this)).addClass('active');
 
-                var declaration = $('.declaration').text();
+                slogan.selected.third = index;
+                slogan.update();
+
+                //var declaration = $('.declaration').text();
 
                 var text = $('span', $(this)).text()
 
                 customKey = text == '自定义' ? 1 : 0;
 
-                if (text != '自定义') {
-                    $('.declaration span').text(text);
-                    $('.declaration span').addClass('active');
-                }
-                else {
-                    $('.declaration span').text('');
-                    $('.declaration span').removeClass('active');
-                }
+                //if (text != '自定义') {
+                //    $('.declaration span').text(text);
+                //    $('.declaration span').addClass('active');
+                //}
+                //else {
+                //    $('.declaration span').text('');
+                //    $('.declaration span').removeClass('active');
+                //}
 
             });
         })
@@ -447,7 +433,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 //loopAdditionalSlides: city.length,
                 onInit: function (swiper) {
                     // 更新数据
-                    $.each(city, function (index, item) {
+                    $.each(slogan.table.city, function (index, item) {
                         swiper.appendSlide('<div class="swiper-slide">' + item.region + '</div>');
                     })
 
@@ -475,7 +461,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
                         self.countrySwiper.removeAllSlides();
 
-                        $.each(city[regionIndex].country, function (index, item) {
+                        $.each(slogan.table.city[regionIndex].country, function (index, item) {
                             self.countrySwiper.appendSlide('<div class="swiper-slide">' + item.name + '</div>');
                         })
 
@@ -491,7 +477,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                         // ---------
                         self.citySwiper.removeAllSlides();
 
-                        $.each(city[regionIndex].country[0].city, function (index, item) {
+                        $.each(slogan.table.city[regionIndex].country[0].city, function (index, item) {
                             self.citySwiper.appendSlide('<div class="swiper-slide">' + item + '</div>');
                         })
 
@@ -512,7 +498,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     }
 
                     //console.log(self.countrySwiper);
-                    //$('.declaration').html(self.data[theme].m[swiper.realIndex].n);
+                    //$('.declaration').html(slogan.data[theme].m[swiper.realIndex].n);
 
                     //record = swiper.realIndex;
                     //console.log('record=' + record)
@@ -532,7 +518,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 //loopAdditionalSlides: city.length,
                 onInit: function (swiper) {
                     // 更新数据
-                    $.each(city[0].country, function (index, item) {
+                    $.each(slogan.table.city[0].country, function (index, item) {
                         swiper.appendSlide('<div class="swiper-slide">' + item.name + '</div>');
                     })
 
@@ -550,7 +536,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 },
                 onTransitionEnd: function (swiper) {
                     $('#countrySwiper .swiper-slide').eq(swiper.activeIndex).addClass('highlight');
-                    //$('.declaration').html(self.data[theme].m[swiper.realIndex].n);
+                    //$('.declaration').html(slogan.data[theme].m[swiper.realIndex].n);
 
                     if (countryIndex != swiper.realIndex) {
                         countryIndex = swiper.realIndex;
@@ -558,7 +544,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                         // ---------
                         self.citySwiper.removeAllSlides();
 
-                        $.each(city[regionIndex].country[countryIndex].city, function (index, item) {
+                        $.each(slogan.table.city[regionIndex].country[countryIndex].city, function (index, item) {
                             self.citySwiper.appendSlide('<div class="swiper-slide">' + item + '</div>');
                         })
 
@@ -603,7 +589,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 //loopAdditionalSlides: city.length,
                 onInit: function (swiper) {
                     // 更新数据
-                    $.each(city[0].country[0].city, function (index, item) {
+                    $.each(slogan.table.city[0].country[0].city, function (index, item) {
                         swiper.appendSlide('<div class="swiper-slide">' + item + '</div>');
                     })
 
@@ -624,10 +610,11 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
                     var text = $(self.citySwiper.slides[swiper.activeIndex]).text();
 
-                    $('.declaration span').text(text);
-                    $('.declaration span').addClass('active');
+                    //$('.declaration span').text(text);
+                    //$('.declaration span').addClass('active');
+                    slogan.update(text);
 
-                    //$('.declaration').html(self.data[theme].m[swiper.realIndex].n);
+                    //$('.declaration').html(slogan.data[theme].m[swiper.realIndex].n);
 
                     //record = swiper.realIndex;
                     //console.log('record=' + record)
@@ -658,14 +645,16 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 $('.customKeyText .input div').text('最多只能输入4个字符').removeClass('active')
             }
 
-            if (text != '') {
-                $('.declaration span').text(text.substring(0, 4));
-                $('.declaration span').addClass('active');
-            }
-            else {
-                $('.declaration span').text('');
-                $('.declaration span').removeClass('active');
-            }
+            //if (text != '') {
+            //    $('.declaration span').text(text.substring(0, 4));
+            //    $('.declaration span').addClass('active');
+            //}
+            //else {
+            //    $('.declaration span').text('');
+            //    $('.declaration span').removeClass('active');
+            //}
+
+            slogan.update(text.substring(0, 4))
 
         }, 1000)
     }
@@ -690,136 +679,16 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 $('.customThemeText .input div').text('最多只能输入10个字符').removeClass('active')
             }
 
-            $('.declaration').text(text.substring(0,10));
+            slogan.update(text.substring(0, 10))
         }, 1000)
     }
 
-    self.data = [
-        {
-            n: '旅行', title:'旅行宣言', m: [
-                { n: '是时候来一场　　之旅', m: ['沙漠', '公路', '海滩', '都市', '山地'] },
-                { n: '祝你　　之行轻松愉悦', m: 'city' },
-                { n: '祝你　　之行顺利', m: 'city' }
-            ]
-        },
-
-        {
-            n: '表白', title: '表白宣言', m: [
-                { n: '令心跳加速的不止　　，还有你', m: ['保时捷', '速度', '未来', '远方', '风景'] },
-                { n: '因为有你，每一次　　都是惊喜', m: ['远行', '旅途', '出发', '邂逅', '启程'] }
-            ]
-        },
-
-        {
-            n: '生日', title: '选择祝福语言', m: [
-                { n: '生日快乐' },
-                { n: 'Happy Birthday' },
-                { n: 'Bon Anniversaire' },
-                { n: 'Alles Gute Zum Geburtstag' },
-                { n: 'iFeliz Cumpleaños' }
-            ]
-        },
-
-        {
-            n: '工作', title: '工作宣言', m: [
-                { n: '我爱　　，　　让我快乐', m: ['出差', '工作', '加班', '开会', '公司'] },
-                { n: '全情投入，偶尔也要逃离　　', m: ['办公室', '写字楼', '北上广', '大城市', '格子间'] }
-            ]
-        },
-
-        {
-            n: '团聚', title: '团聚宣言', m: [
-                { n: '这一次出发，只为　　', m: ['抵达', '重逢', '邂逅', '约定', '回家'] },
-                { n: '要去的方向，是有　　的地方', m: ['家人', '朋友', '闺蜜', '兄弟', '挚爱'] }
-            ]
-        },
-
-        {
-            n: '比赛', title: '比赛宣言', m: [
-                { n: '期待你创造新的　　', m: ['记录', '荣耀', '传奇', '故事', '篇章'] },
-                { n: '下赛道，　　！', m: ['一决高下', '实力说话', '创造传奇', '极速竞技', '挑战极限'] }
-            ]
-        },
-
-        {
-            n: '成长', title: '成长宣言', m: [
-                { n: '一生中一定要有一次　　', m: ['热恋', '旅行', '奋不顾身', '独处', '任性'] },
-                { n: '成长的乐趣是实现　　的梦想', m: ['儿时', '青春', '看似幼稚', '小小', '不切实际'] }
-            ]
-        },
-
-        {
-            n: '梦想', title: '梦想宣言', m: [
-                { n: '一部车，　　，就是心之所向', m: ['一片星空', '一个梦想', '一座岛屿', '一份自由', '一个终点'] },
-                { n: '我的梦想，在　　', m: ['赛场', '舞台', '路上', '远方', '故乡'] }
-            ]
-        },
-
-        {
-            n: '自定义', m: 'other'
-        }
-    ]
-
-    var city = [
-        {
-            region: '亚洲', country: [
-                { name: '内地', city: ['三亚', '厦门', '青岛', '丽江', '大连', '成都', '上海', '桂林', '北京', '西安'] },
-                { name: '港澳台', city: ['香港', '澳门', '台北', '高雄', '垦丁', '花莲'] },
-                { name: '日本', city: ['东京', '大板', '京都', '奈良', '箱根', '北海道', '冲绳', '福冈', '神户', '神奈川'] },
-                { name: '泰国', city: ['普吉岛', '曼谷', '清迈', '芭提雅', '苏梅岛', '皮皮岛', '甲米', '拜县', '沙美岛', '清莱'] },
-                { name: '韩国', city: ['首尔', '济州岛', '釜山', '仁川', '江原道'] },
-                { name: '越南', city: ['岘港', '胡志明市', '下龙湾', '芽庄', '美奈'] },
-                { name: '新加坡', city: ['新加坡'] },
-                { name: '马来西亚', city: ['吉隆坡', '沙巴', '兰卡威', '马六甲', '滨城'] },
-                { name: '菲律宾', city: ['长滩岛', '马尼拉', '宿雾', '薄荷岛', '巴拉望'] },
-                { name: '其他', city: ['其他'] }
-            ]
-        },
-
-        {
-            region: '欧洲', country: [
-                { name: '英国', city: ['伦敦', '爱丁堡', '牛津', '剑桥', '曼彻斯特', '约克', '巴斯', '利物浦', '伯明翰', '纽卡斯尔'] },
-                { name: '德国', city: ['柏林', '慕尼黑', '多特蒙德', '法兰克福', '科隆', '海德堡', '汉堡', '斯图加特', '纽伦堡'] },
-                { name: '法国', city: ['巴黎', '普罗旺斯', '马赛', '里昂', '戛纳'] },
-                { name: '西班牙', city: ['巴塞罗那', '马德里', '塞维利亚', '瓦伦西亚', '科尔多瓦'] },
-                { name: '意大利', city: ['罗马', '米兰', '那不勒斯', '都灵', '佛罗伦萨', '威尼斯'] },
-                { name: '荷兰', city: ['阿姆斯特丹', '马斯特里赫特', '海牙', '鹿特丹', '乌特勒支'] },
-                { name: '瑞士', city: ['苏黎世', '卢塞恩', '日内瓦', '洛桑', '卢加诺'] },
-                { name: '其他', city: ['其他'] }
-            ]
-        },
-
-        {
-            region: '北美洲', country: [
-                { name: '美国', city: ['纽约', '洛杉矶', '旧金山', '西雅图', '华盛顿', '拉斯维加斯', '夏威夷', '波士顿', '芝加哥', '费城'] },
-                { name: '加拿大', city: ['温哥华', '蒙特利尔', '多伦多', '渥太华', '魁北克'] },
-                { name: '其他', city: ['其他'] }
-            ]
-        },
-
-        {
-            region: '南美洲', country: [
-                { name: '巴西', city: ['里约热内卢', '圣保罗'] },
-                { name: '阿根廷', city: ['布宜诺斯艾利斯', '蒙得维的亚'] },
-                { name: '其他', city: ['其他'] }
-            ]
-        },
-
-        {
-            region: '大洋洲', country: [
-                { name: '澳大利亚', city: ['悉尼', '墨尔本', '凯恩斯', '黄金海岸', '堪培拉'] },
-                { name: '新西兰', city: ['奥克兰', '皇后镇', '惠灵顿'] },
-                { name: '斐济', city: ['斐济'] },
-                { name: '其他', city: ['其他'] }
-            ]
-        }
-    ]
 
     self.template = {
         loading: '<div class="loading"><span></span></div>',
         block: '<div class="block"><img src="img/main/landscape.png" /><br /><span>竖屏浏览，体验更佳</span></div>',
         pageSwiper:
-            '<div class="declaration declaration2 jsfix" data-size="no"></div>\
+            '<div class="declaration declaration2 slogan jsfix" data-size="no"></div>\
             <div class="swiper-container" id="pageSwiper">\
                 <div class="swiper-wrapper">\
                     <div class="swiper-slide scene-index1">\
@@ -996,6 +865,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
 
     // 留资
+    // ----------------------------------------------------
     var form = {}
 
     form.open = function(){
@@ -1287,7 +1157,204 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
     }
 
 
+    // 宣言
+    var slogan = {}
 
+    slogan.selected = {
+        first : 0,
+        second : 0,
+        third : 0
+    }
+
+    slogan.table = {
+
+        slogan : [
+            {
+                name: '旅行', title: '旅行宣言', list: [
+                    { name: '是时候来一场　　之旅', key: ['沙漠', '公路', '海滩', '都市', '山地'] },
+                    { name: '祝你　　之行轻松愉悦', key: 'city' },
+                    { name: '祝你　　之行顺利', key: 'city' }
+                ]
+            },
+
+            {
+                name: '表白', title: '表白宣言', list: [
+                    { name: '令心跳加速的不止　　，还有你', key: ['保时捷', '速度', '未来', '远方', '风景'] },
+                    { name: '因为有你，每一次　　都是惊喜', key: ['远行', '旅途', '出发', '邂逅', '启程'] }
+                ]
+            },
+
+            {
+                name: '生日', title: '选择祝福语言', list: [
+                    { name: '生日快乐' },
+                    { name: 'Happy Birthday' },
+                    { name: 'Bon Anniversaire' },
+                    { name: 'Alles Gute Zum Geburtstag' },
+                    { name: 'iFeliz Cumpleaños' }
+                ]
+            },
+
+            {
+                name: '工作', title: '工作宣言', list: [
+                    { name: '我爱　　，　　让我快乐', key: ['出差', '工作', '加班', '开会', '公司'] },
+                    { name: '全情投入，偶尔也要逃离　　', key: ['办公室', '写字楼', '北上广', '大城市', '格子间'] }
+                ]
+            },
+
+            {
+                name: '团聚', title: '团聚宣言', list: [
+                    { name: '这一次出发，只为　　', key: ['抵达', '重逢', '邂逅', '约定', '回家'] },
+                    { name: '要去的方向，是有　　的地方', key: ['家人', '朋友', '闺蜜', '兄弟', '挚爱'] }
+                ]
+            },
+
+            {
+                name: '比赛', title: '比赛宣言', list: [
+                    { name: '期待你创造新的　　', key: ['记录', '荣耀', '传奇', '故事', '篇章'] },
+                    { name: '下赛道，　　！', key: ['一决高下', '实力说话', '创造传奇', '极速竞技', '挑战极限'] }
+                ]
+            },
+
+            {
+                name: '成长', title: '成长宣言', list: [
+                    { name: '一生中一定要有一次　　', key: ['热恋', '旅行', '奋不顾身', '独处', '任性'] },
+                    { name: '成长的乐趣是实现　　的梦想', key: ['儿时', '青春', '看似幼稚', '小小', '不切实际'] }
+                ]
+            },
+
+            {
+                name: '梦想', title: '梦想宣言', list: [
+                    { name: '一部车，　　，就是心之所向', key: ['一片星空', '一个梦想', '一座岛屿', '一份自由', '一个终点'] },
+                    { name: '我的梦想，在　　', key: ['赛场', '舞台', '路上', '远方', '故乡'] }
+                ]
+            },
+
+            {
+                name: '自定义', key: 'other'
+            }
+        ],
+
+        city: [
+            {
+                region: '亚洲', country: [
+                    { name: '内地', city: ['三亚', '厦门', '青岛', '丽江', '大连', '成都', '上海', '桂林', '北京', '西安'] },
+                    { name: '港澳台', city: ['香港', '澳门', '台北', '高雄', '垦丁', '花莲'] },
+                    { name: '日本', city: ['东京', '大板', '京都', '奈良', '箱根', '北海道', '冲绳', '福冈', '神户', '神奈川'] },
+                    { name: '泰国', city: ['普吉岛', '曼谷', '清迈', '芭提雅', '苏梅岛', '皮皮岛', '甲米', '拜县', '沙美岛', '清莱'] },
+                    { name: '韩国', city: ['首尔', '济州岛', '釜山', '仁川', '江原道'] },
+                    { name: '越南', city: ['岘港', '胡志明市', '下龙湾', '芽庄', '美奈'] },
+                    { name: '新加坡', city: ['新加坡'] },
+                    { name: '马来西亚', city: ['吉隆坡', '沙巴', '兰卡威', '马六甲', '滨城'] },
+                    { name: '菲律宾', city: ['长滩岛', '马尼拉', '宿雾', '薄荷岛', '巴拉望'] },
+                    { name: '其他', city: ['其他'] }
+                ]
+            },
+
+            {
+                region: '欧洲', country: [
+                    { name: '英国', city: ['伦敦', '爱丁堡', '牛津', '剑桥', '曼彻斯特', '约克', '巴斯', '利物浦', '伯明翰', '纽卡斯尔'] },
+                    { name: '德国', city: ['柏林', '慕尼黑', '多特蒙德', '法兰克福', '科隆', '海德堡', '汉堡', '斯图加特', '纽伦堡'] },
+                    { name: '法国', city: ['巴黎', '普罗旺斯', '马赛', '里昂', '戛纳'] },
+                    { name: '西班牙', city: ['巴塞罗那', '马德里', '塞维利亚', '瓦伦西亚', '科尔多瓦'] },
+                    { name: '意大利', city: ['罗马', '米兰', '那不勒斯', '都灵', '佛罗伦萨', '威尼斯'] },
+                    { name: '荷兰', city: ['阿姆斯特丹', '马斯特里赫特', '海牙', '鹿特丹', '乌特勒支'] },
+                    { name: '瑞士', city: ['苏黎世', '卢塞恩', '日内瓦', '洛桑', '卢加诺'] },
+                    { name: '其他', city: ['其他'] }
+                ]
+            },
+
+            {
+                region: '北美洲', country: [
+                    { name: '美国', city: ['纽约', '洛杉矶', '旧金山', '西雅图', '华盛顿', '拉斯维加斯', '夏威夷', '波士顿', '芝加哥', '费城'] },
+                    { name: '加拿大', city: ['温哥华', '蒙特利尔', '多伦多', '渥太华', '魁北克'] },
+                    { name: '其他', city: ['其他'] }
+                ]
+            },
+
+            {
+                region: '南美洲', country: [
+                    { name: '巴西', city: ['里约热内卢', '圣保罗'] },
+                    { name: '阿根廷', city: ['布宜诺斯艾利斯', '蒙得维的亚'] },
+                    { name: '其他', city: ['其他'] }
+                ]
+            },
+
+            {
+                region: '大洋洲', country: [
+                    { name: '澳大利亚', city: ['悉尼', '墨尔本', '凯恩斯', '黄金海岸', '堪培拉'] },
+                    { name: '新西兰', city: ['奥克兰', '皇后镇', '惠灵顿'] },
+                    { name: '斐济', city: ['斐济'] },
+                    { name: '其他', city: ['其他'] }
+                ]
+            }
+        ]
+    }
+
+    slogan.target = function () { return $('.slogan') }
+
+    // 当前模板
+    slogan.template = null;
+
+    slogan.getValue = function () {
+
+    }
+
+    // 设置选择列表标题
+    slogan.setTitle = function (o) {
+        o.text(this.table.slogan[this.selected.first].title);
+    }
+
+    slogan.update = function (s) {
+
+        var key = '', text = '';
+
+        switch (step) {
+            case 1:
+                console.log('step::' + step);
+                if (slogan.selected.first == 8) {
+                    text = s;
+                }
+                else {
+                    this.template = slogan.table.slogan[this.selected.first].list[this.selected.second].name;
+                    text = this.template;
+                }
+                break;
+
+            case 2:
+                console.log('step::' + step);
+                key = s || slogan.table.slogan[this.selected.first].list[this.selected.second].key[this.selected.third];
+                if (key) {
+                    text = this.template.replace(/　　/g, key);
+                }
+                else {
+                    text = this.template;
+                }
+                break;
+
+            case 3:
+                console.log('step::' + step);
+                if (s != '') {
+                    text = this.template.replace(/　　/g, s);
+                }
+                else {
+                    text = this.template;
+                }
+                
+                break;
+        }
+
+        var space = '';
+        for (var i = 16; i > text.length; i--) {
+            space += '　';
+        }
+        this.target().html(text + space);
+    }
+
+    slogan.clear = function () {
+        this.selected.second = 0;
+        this.selected.third = 0;
+        this.target().html('');
+    }
 
 
 
