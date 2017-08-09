@@ -21,6 +21,7 @@
             deps: [
                 'jquery-3.1.0.min',
                 'jquery.hammer',
+                'jquery.arctext',
                 //'jquery.cookie',
 
                 // 临时加载createjs

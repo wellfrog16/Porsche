@@ -126,7 +126,7 @@ body {
 }
 .scene-main {
   background-image: url(../img/main/movie.jpg);
-  background-position: top center;
+  background-position: top left;
   background-size: 500%;
   background-position-x: 0;
   background-repeat: no-repeat;
@@ -134,25 +134,26 @@ body {
 }
 .declaration {
   position: absolute;
-  top: 264px;
+  top: 260px;
   left: 280px;
   overflow: hidden;
-  height: 20px;
+  height: 40px;
   width: 200px;
   color: #fff;
   z-index: 5;
   font-size: 8px;
-  transform: rotate(25deg);
-  -ms-transform: rotate(25deg);
-  -webkit-transform: rotate(25deg);
-  -moz-transform: rotate(25deg);
-  -o-transform: rotate(25deg);
-}
-.declaration span {
-  padding: 0px 10px;
-}
-.declaration span.active {
-  padding: 0;
+  transform: rotate(27deg);
+  -ms-transform: rotate(27deg);
+  -webkit-transform: rotate(27deg);
+  -moz-transform: rotate(27deg);
+  -o-transform: rotate(27deg);
+  /*span {
+        padding:0px 10px;
+
+        &.active {
+            padding:0;
+        }
+    }*/
 }
 .swiper-box {
   width: 100%;
@@ -170,8 +171,8 @@ body {
 .pagination .button {
   border: 1px solid #363636;
   width: 122px;
-  height: 24px;
-  line-height: 22px;
+  height: 30px;
+  line-height: 28px;
   display: inline-block;
   margin: 16px 10px;
   color: #ddd;
@@ -462,12 +463,13 @@ body {
 .user-form .button > div {
   border: 1px solid #363636;
   width: 122px;
-  height: 24px;
-  line-height: 24px;
+  height: 30px;
+  line-height: 28px;
   display: inline-block;
   margin: 16px 10px;
   color: #ddd;
   border-radius: 8px;
+  font-size: 16px;
 }
 .user-form .rule {
   width: 100%;
@@ -609,8 +611,8 @@ body {
 .shareview .button > span {
   border: 1px solid #7d7d7d;
   width: 122px;
-  height: 28px;
-  line-height: 27px;
+  height: 30px;
+  line-height: 28px;
   display: inline-block;
   margin: 16px 10px;
   color: #ddd;

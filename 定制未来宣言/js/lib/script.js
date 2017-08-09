@@ -3,7 +3,7 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
-    self.host = 'http://www.porsche-cnmkt.com/app164/'
+    self.host = 'http://www.porsche-cnmkt.com/app165/'
 
     self.open = function () {
         // 如果是手机端，加载横屏提示
@@ -322,6 +322,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
             clearInterval(timer);
 
+            custom = false;
+
             flagCity = false;
 
             if ($('.block').length == 0) {
@@ -361,6 +363,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 //swiper.slideTo(0);
                 $('#commonSecondSwiper .swiper-slide').eq(0).addClass('highlight');
                 $('.declaration').html(self.data[theme].m[0].n);
+
+                //$('.declaration').arctext({ radius: 400 });
             },
             onTransitionStart: function (swiper) {
                 $('#commonSecondSwiper .highlight').removeClass('highlight');
@@ -368,7 +372,15 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             },
             onTransitionEnd: function (swiper) {
                 $('#commonSecondSwiper .swiper-slide').eq(swiper.activeIndex).addClass('highlight');
-                $('.declaration').html(self.data[theme].m[swiper.realIndex].n);
+
+
+                var text = $('<div id="qq">' + self.data[theme].m[swiper.realIndex].n + '</div>')
+
+                //$('.declaration').html(self.data[theme].m[swiper.realIndex].n).arctext({ radius: 400 });
+                $('.declaration').html(text);
+
+                $('#qq').arctext({ radius: 1000 });
+                
 
                 record = swiper.realIndex;
                 console.log('record='+ record)
@@ -634,6 +646,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         $('.customKeyText').show();
         $('.block').remove();
 
+        custom = true;
+
         timer = setInterval(function () {
             var text = $('.customKeyText input').val();
 
@@ -664,6 +678,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         $('.customThemeText').show();
         $('.block').remove();
 
+        custom = true;
+
         timer = setInterval(function () {
             var text = $('.customThemeText input').val();
 
@@ -681,61 +697,61 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
     self.data = [
         {
             n: '旅行', title:'旅行宣言', m: [
-                { n: '是时候来一场<span></span>之旅', m: ['沙漠', '公路', '海滩', '都市', '山地'] },
-                { n: '祝你<span></span>之行轻松愉悦', m: 'city' },
-                { n: '祝你<span></span>之行顺利', m: 'city' }
+                { n: '是时候来一场　　之旅', m: ['沙漠', '公路', '海滩', '都市', '山地'] },
+                { n: '祝你　　之行轻松愉悦', m: 'city' },
+                { n: '祝你　　之行顺利', m: 'city' }
             ]
         },
 
         {
             n: '表白', title: '表白宣言', m: [
-                { n: '令心跳加速的不止<span></span>，还有你', m: ['保时捷', '速度', '未来', '远方', '风景'] },
-                { n: '因为有你，每一次<span></span>都是惊喜', m: ['远行', '旅途', '出发', '邂逅', '启程'] }
+                { n: '令心跳加速的不止　　，还有你', m: ['保时捷', '速度', '未来', '远方', '风景'] },
+                { n: '因为有你，每一次　　都是惊喜', m: ['远行', '旅途', '出发', '邂逅', '启程'] }
             ]
         },
 
         {
             n: '生日', title: '选择祝福语言', m: [
-                { n: '(Chinese) 生日快乐' },
-                { n: '(English) Happy Birthday' },
-                { n: '(French) Bon Anniversaire' },
-                { n: '(German) Alles Gute Zum Geburtstag' },
-                { n: '(Spanish) iFeliz Cumpleaños' }
+                { n: '生日快乐' },
+                { n: 'Happy Birthday' },
+                { n: 'Bon Anniversaire' },
+                { n: 'Alles Gute Zum Geburtstag' },
+                { n: 'iFeliz Cumpleaños' }
             ]
         },
 
         {
             n: '工作', title: '工作宣言', m: [
-                { n: '我爱<span></span>，<span></span>让我快乐', m: ['出差', '工作', '加班', '开会', '公司'] },
-                { n: '全情投入，偶尔也要逃离<span></span>', m: ['办公室', '写字楼', '北上广', '大城市', '格子间'] }
+                { n: '我爱　　，　　让我快乐', m: ['出差', '工作', '加班', '开会', '公司'] },
+                { n: '全情投入，偶尔也要逃离　　', m: ['办公室', '写字楼', '北上广', '大城市', '格子间'] }
             ]
         },
 
         {
             n: '团聚', title: '团聚宣言', m: [
-                { n: '这一次出发，只为<span></span>', m: ['抵达', '重逢', '邂逅', '约定', '回家'] },
-                { n: '要去的方向，是有<span></span>的地方', m: ['家人', '朋友', '闺蜜', '兄弟', '挚爱'] }
+                { n: '这一次出发，只为　　', m: ['抵达', '重逢', '邂逅', '约定', '回家'] },
+                { n: '要去的方向，是有　　的地方', m: ['家人', '朋友', '闺蜜', '兄弟', '挚爱'] }
             ]
         },
 
         {
             n: '比赛', title: '比赛宣言', m: [
-                { n: '期待你创造新的<span></span>', m: ['记录', '荣耀', '传奇', '故事', '篇章'] },
-                { n: '下赛道，<span></span>！', m: ['一决高下', '实力说话', '创造传奇', '极速竞技', '挑战极限'] }
+                { n: '期待你创造新的　　', m: ['记录', '荣耀', '传奇', '故事', '篇章'] },
+                { n: '下赛道，　　！', m: ['一决高下', '实力说话', '创造传奇', '极速竞技', '挑战极限'] }
             ]
         },
 
         {
             n: '成长', title: '成长宣言', m: [
-                { n: '一生中一定要有一次<span></span>', m: ['热恋', '旅行', '奋不顾身', '独处', '任性'] },
-                { n: '成长的乐趣是实现<span></span>的梦想', m: ['儿时', '青春', '看似幼稚', '小小', '不切实际'] }
+                { n: '一生中一定要有一次　　', m: ['热恋', '旅行', '奋不顾身', '独处', '任性'] },
+                { n: '成长的乐趣是实现　　的梦想', m: ['儿时', '青春', '看似幼稚', '小小', '不切实际'] }
             ]
         },
 
         {
             n: '梦想', title: '梦想宣言', m: [
-                { n: '一部车，<span></span>，就是心之所向', m: ['一片星空', '一个梦想', '一座岛屿', '一份自由', '一个终点'] },
-                { n: '我的梦想，在<span></span>', m: ['赛场', '舞台', '路上', '远方', '故乡'] }
+                { n: '一部车，　　，就是心之所向', m: ['一片星空', '一个梦想', '一座岛屿', '一份自由', '一个终点'] },
+                { n: '我的梦想，在　　', m: ['赛场', '舞台', '路上', '远方', '故乡'] }
             ]
         },
 
@@ -1050,12 +1066,12 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         //$('#mainSwiper').hide();
 
         // 调整buttton坐标
-        $('#userForm>.button').css('top', document.body.clientHeight - 75);
+        $('#userForm>.button').css('top', document.body.clientHeight - 71);
 
 
         // 同意条款
         $('.agree span', userForm).hammer().on("tap", function (e) {
-            if (form.agree) {
+            if ($(this).attr('class') == 'active') {
                 $(this).removeClass('active');
                 form.agree = false;
             }

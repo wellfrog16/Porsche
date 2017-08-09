@@ -117,7 +117,7 @@ html, body {
 
 .scene-main {
     background-image:url(../img/main/movie.jpg);
-    background-position:top center;
+    background-position:top left;
     background-size:500%;
     background-position-x:0;    
     background-repeat:no-repeat;
@@ -126,25 +126,25 @@ html, body {
 
 .declaration {
     position:absolute;
-    top:264px;
+    top:260px;
     left:280px;
     overflow:hidden;
-    height:20px;
+    height:40px;
     width:200px;
     color:#fff;
     z-index:5;
     font-size:8px;
     //white-space:nowrap;
 
-    .transform(rotate(25deg));
+    .transform(rotate(27deg));
 
-    span {
+    /*span {
         padding:0px 10px;
 
         &.active {
             padding:0;
         }
-    }
+    }*/
 }
 
 @footer-height:70px;
@@ -172,8 +172,8 @@ html, body {
     .button {
         border:1px solid #363636;
         width:122px;
-        height:24px;
-        line-height:22px;
+        height:30px;
+        line-height:28px;
         display:inline-block;
         margin:16px 10px;
         color:#ddd;
@@ -490,12 +490,13 @@ html, body {
         >div {
             border:1px solid #363636;
             width:122px;
-            height:24px;
-            line-height:24px;
+            height:30px;
+            line-height:28px;
             display:inline-block;
             margin:16px 10px;
             color:#ddd;
-            border-radius:8px
+            border-radius:8px;
+            font-size:16px;
         }
     }
 
@@ -617,8 +618,8 @@ html, body {
         >span {
             border:1px solid #7d7d7d;
             width:122px;
-            height:28px;
-            line-height:27px;
+            height:30px;
+            line-height:28px;
             display:inline-block;
             margin:16px 10px;
             color:#ddd;
