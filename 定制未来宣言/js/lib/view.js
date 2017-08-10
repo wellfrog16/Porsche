@@ -74,10 +74,26 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
     self.init = function () {
         $('body').append(self.template.shareview);
-        $('.declaration').text(tools.getUrlParam('words'));
+        
         $('.shareview').show();
 
         tools.fixPosition(640);
+
+        var text = tools.getUrlParam('words');
+
+        var l = text.length;
+        for (var i = 16; i > l; i--) {
+            text += '　';
+        }
+
+        var o = $('<div id="finallyText">' + text + '</div>')
+
+        $('.declaration').html(o);
+
+
+        $('#finallyText').arctext({ radius: 1200 });
+
+
 
         self.bindAction();
 

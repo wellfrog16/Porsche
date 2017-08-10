@@ -296,6 +296,13 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
         $('.scene-main .pre').hammer().on("tap", function (e) {
 
+            if (step == 0) {
+                self.pageSwiper.unlockSwipes();
+                self.pageSwiper.slidePrev();
+
+                return;
+            }
+
             $('.customThemeText, .customKeyText').hide();
             $('.customThemeText input, .customKeyText input').val('');
 
@@ -335,7 +342,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             onInit: function (swiper) {
                 // 更新数据
                 $.each(slogan.table.slogan[slogan.selected.first].list, function (index, item) {
-                    swiper.appendSlide('<div class="swiper-slide">' + item.name + '</div>');
+                    swiper.appendSlide('<div class="swiper-slide">' + item.name.replace(/　　/g, '<span></span>') + '</div>');
                 })
 
                 swiper.update();
@@ -696,7 +703,6 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                         <img src="img/main/word.png" class="word jsfix">\
                         <div class="arrow"><img src="img/icon/arrow.png"></div></div>\
                     <div class="swiper-slide scene-index2">\
-                        <img src="img/main/method.png">\
                         <div class="arrow"><img src="img/icon/arrow.png"></div>\
                     </div>\
                     <div class="swiper-slide scene-main">\
@@ -882,8 +888,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                         <li><span>您的姓名</span><i></i><input type="text" id="name" maxlength="8" ></li>\
                         <li><span>您的手机</span><i></i><input type="text" id="mobile"  value=""></li>\
                         <li><span>验证码　</span><i></i><input type="text" class="code" id="code" ><a href="#" id="sendCode">发送<span></span></a></li>\
-                        <li><span>您的车牌</span><i></i><input type="text" id="number" maxlength="10" ></li>\
-                        <li><span>您的车型/品牌</span><input type="text" id="brand" maxlength="10" ></li>\
+                        <li><span>您的车牌</span><i></i><input type="text" id="number" maxlength="14" ></li>\
+                        <li><span>您的车型/品牌</span><input type="text" id="brand" maxlength="24" ></li>\
                     </ul>\
                     <div class="agree"><span></span>我已阅读并了解<a href="#">隐私条款</a></div>\
                     <div class="button"><div class="back">上一步</div><div class="submit">提交</div></div>\
@@ -1087,7 +1093,9 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 mobile = $('#mobile', userForm).val(),
                 number = $('#number', userForm).val(),
                 brand = $('#brand', userForm).val(),
-                declaration = $('.declaration2').text();
+                declaration = slogan.value;
+
+
 
             if (!form.flagMobile) {
                 form.error('你需要先验证手机');
@@ -1105,10 +1113,18 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 return;
             }
 
-            if (number == '') {
-                form.error('请填写车牌');
+
+            if (!/^[a-zA-Z0-9\u4e00-\u9fa5]+$/.test(number)) {
+                form.error('请填写正确的车牌');
                 return;
             }
+
+
+
+            //$('.shareview .declaration').text(declaration);
+
+            alert('name:' + name + ', mobile:' + mobile + ', number:' + number + ', slogan:' + declaration + '。哈哈')
+
 
             console.log(name)
             console.log(mobile)
@@ -1127,13 +1143,28 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                         //form.error('保存成功');
                         self.share(declaration);
 
-                        $('.shareview .declaration').text(declaration);
+
+
                         $('.finished', userForm).show();
                         $('.shareview', userForm).hide();
 
                         setTimeout(function () {
                             $('.finished', userForm).fadeOut();
                             $('.shareview', userForm).show();
+
+                            var o = $('<div id="finallyText2">' + slogan.longValue + '</div>')
+
+                            //$('.declaration').html(slogan.data[theme].m[swiper.realIndex].n).arctext({ radius: 400 });
+                            $('.shareview .declaration').html(o);
+
+                            if (slogan.selected.first == 2) {
+                                $('#finallyText2').arctext({ radius: 1500 });
+                            }
+                            else {
+                                $('#finallyText2').arctext({ radius: 1200 });
+                            }
+
+
                         }, 1000)
                     }
                     else {
@@ -1294,10 +1325,9 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
     // 当前模板
     slogan.template = null;
+    slogan.value = null;
+    slogan.longValue = null;
 
-    slogan.getValue = function () {
-
-    }
 
     // 设置选择列表标题
     slogan.setTitle = function (o) {
@@ -1343,11 +1373,30 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 break;
         }
 
-        var space = '';
-        for (var i = 16; i > text.length; i--) {
-            space += '　';
+        slogan.value = text;
+
+        var l = text.length;
+        for (var i = 16; i > l; i--) {
+            text += '　';
         }
-        this.target().html(text + space);
+
+        slogan.longValue = text;
+
+        var o = $('<div id="finallyText">' + text + '</div>')
+
+        //$('.declaration').html(slogan.data[theme].m[swiper.realIndex].n).arctext({ radius: 400 });
+        this.target().html(o);
+
+        if (slogan.selected.first == 2) {
+            $('#finallyText').arctext({ radius: 1500 });
+        }
+        else {
+            $('#finallyText').arctext({ radius: 1000 });
+        }
+        
+
+
+        //this.target().html(text);
     }
 
     slogan.clear = function () {
