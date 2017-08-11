@@ -251,7 +251,7 @@ body {
 #lvxingSwiper .highlight,
 #commonSecondSwiper .highlight {
   color: #fff;
-  font-size: 22px;
+  font-size: 18px;
 }
 #themeSwiper .highlight span,
 #lvxingSwiper .highlight span,
@@ -259,7 +259,7 @@ body {
   border: 1px solid #fff;
   font-size: 16px;
   border-radius: 12px;
-  top: -2px;
+  top: 1px;
 }
 .lvxingSwiper .indicator {
   top: 85px !important;

@@ -1065,7 +1065,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     dataType: 'json',
                     url: 'http://dev.api.happy-share.cn/sms',
                     data: { aId: 'C83E1SHG', mobile: parseInt($('#mobile', userForm).val()) },
-                    //data:JSON.stringify({ aid: 'C83E1SHG', mobile: '15502175348' }),
+                    //data:{ aid: 'C83E1SHG', mobile: '15502175348' },
                     success: function (args) {
                         if (args.code == 200) {
 
