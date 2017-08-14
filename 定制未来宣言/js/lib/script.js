@@ -3,7 +3,7 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
-    self.host = 'http://www.porsche-cnmkt.com/app165/'
+    self.host = 'http://www.porsche-cnmkt.com/app188/'
 
     self.open = function () {
         // 如果是手机端，加载横屏提示
@@ -127,7 +127,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
             $('.scene-index1').css('background-position-x', (a * b) + 'px')
             b++;
-            if (b > 7) { b = 0 }
+            if (b > 3) { b = 0 }
         }, 200)
 
 
@@ -1123,7 +1123,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
             //$('.shareview .declaration').text(declaration);
 
-            alert('name:' + name + ', mobile:' + mobile + ', number:' + number + ', slogan:' + declaration + '。哈哈')
+            //alert('name:' + name + ', mobile:' + mobile + ', number:' + number + ', slogan:' + declaration + '。哈哈')
 
 
             console.log(name)

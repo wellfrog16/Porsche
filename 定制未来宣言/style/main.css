@@ -79,13 +79,13 @@ body {
 .scene-index1 {
   background-image: url(../img/main/movie-home.jpg);
   background-position: top center;
-  background-size: 800%;
+  background-size: 400%;
   background-position-x: 0;
   background-repeat: no-repeat;
 }
 .scene-index1 img.shadow {
   width: 100%;
-  margin-top: 80px;
+  margin-top: 50vh;
 }
 .scene-index1 img.word {
   position: absolute;
@@ -93,6 +93,7 @@ body {
   top: 390px;
   width: 268px;
   height: 223px;
+  display: none;
 }
 .scene-index1 .arrow {
   text-align: center;
