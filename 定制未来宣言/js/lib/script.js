@@ -3,7 +3,7 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
-    self.host = 'http://www.porsche-cnmkt.com/app188/'
+    self.host = 'http://www.porsche-cnmkt.com/app189/'
 
     self.open = function () {
         // 如果是手机端，加载横屏提示
@@ -885,9 +885,9 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     <h3>让保时捷<br />一眼锁定你</h3>\
                     <p></p>\
                     <ul>\
-                        <li><span>您的姓名</span><i></i><input type="text" id="name" maxlength="8" ></li>\
-                        <li><span>您的手机</span><i></i><input type="text" id="mobile"  value=""></li>\
-                        <li><span>验证码　</span><i></i><input type="text" class="code" id="code" ><a href="#" id="sendCode">发送<span></span></a></li>\
+                        <li><span>您的姓名</span><i></i><input type="text" id="name" maxlength="10" ></li>\
+                        <li><span>您的手机</span><i></i><input type="text" id="mobile" maxlength="11" value=""></li>\
+                        <li><span>验证码　</span><i></i><input type="text" class="code" id="code" maxlength="4" ><a href="#" id="sendCode">发送<span></span></a></li>\
                         <li><span>您的车牌</span><i></i><input type="text" id="number" maxlength="14" ></li>\
                         <li><span>您的车型/品牌</span><input type="text" id="brand" maxlength="24" ></li>\
                     </ul>\
@@ -943,6 +943,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
         // 调整buttton坐标
         $('#userForm>.button').css('top', document.body.clientHeight - 71);
+
 
 
         // 同意条款
@@ -1009,6 +1010,14 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
     form.check = function () {
         var userForm = $('#userForm');
+
+        //只能输入数字
+        $('#mobile, #code').on('keyup', function () {
+            $(this).val($(this).val().replace(/\D/g, ''));
+        }).on('afterpaste', function () {
+            $(this).val($(this).val().replace(/\D/g, ''));
+        })
+
 
         // 短信code验证
         $('#code', userForm).on('keyup', function () {
