@@ -254,8 +254,16 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     self.appendCity();
                 }
                 else if (theme == 2) {              // 生日祝福
-                    form.open();
-                    return;
+                    console.log('record:' + record);
+
+                    if (record == 5) {
+                        self.appendCustomTheme2();
+                    }
+                    else {
+                        form.open();
+                        return;
+                    }
+                    
                 }
                 else if (theme == 8) {
                     if ($('.customThemeSwiper input').val() != '') { custom = true; form.open(); }
@@ -281,6 +289,9 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 console.log('------------------------------------');
                 console.log(step)
                 console.log(customKey)
+
+                // 生日
+                if (step == 2 && record == 5) { form.open(); }
 
                 if (step == 3 && customKey == 1 && $('.customKeyText input').val() == '') { return; }
                 if (step == 2 && $('.commonThirdSwiper .active').length == 0 && !flagCity) { return; }
@@ -678,6 +689,34 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
         timer = setInterval(function () {
             var text = $('.customThemeText input').val();
+
+            console.log(text);
+
+            if (text.length > 10) {
+                $('.customThemeText .input div').text('不能超过10个字符').addClass('active')
+            }
+            else {
+                $('.customThemeText .input div').text('最多只能输入10个字符').removeClass('active')
+            }
+
+            slogan.update(text.substring(0, 10))
+        }, 1000)
+    }
+
+    self.appendCustomTheme2 = function () {
+        self.mainSwiper.removeSlide([2, 3]);
+        self.mainSwiper.appendSlide(self.template.customThemeSwiper);
+        self.mainSwiper.update();
+
+        $('.customThemeText').show();
+        $('.block').remove();
+
+        custom = true;
+
+        timer = setInterval(function () {
+            var text = $('.customThemeText input').val();
+
+            console.log(text);
 
             if (text.length > 10) {
                 $('.customThemeText .input div').text('不能超过10个字符').addClass('active')
@@ -1230,7 +1269,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     { name: 'Happy Birthday' },
                     { name: 'Bon Anniversaire' },
                     { name: 'Alles Gute Zum Geburtstag' },
-                    { name: 'iFeliz Cumpleaños' }
+                    { name: 'iFeliz Cumpleaños' },
+                    { name: '自定义祝福语言' }
                 ]
             },
 
@@ -1361,12 +1401,17 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
             case 2:
                 console.log('step::' + step);
-                key = s || slogan.table.slogan[this.selected.first].list[this.selected.second].key[this.selected.third];
-                if (key) {
-                    text = this.template.replace(/　　/g, key);
+                if (slogan.selected.second == 5) {
+                    text = s;
                 }
                 else {
-                    text = this.template;
+                    key = s || slogan.table.slogan[this.selected.first].list[this.selected.second].key[this.selected.third];
+                    if (key) {
+                        text = this.template.replace(/　　/g, key);
+                    }
+                    else {
+                        text = this.template;
+                    }
                 }
                 break;
 
