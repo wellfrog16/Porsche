@@ -3,7 +3,7 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
-    self.host = 'http://www.porsche-cnmkt.com/app190/'
+    self.host = 'http://www.porsche-cnmkt.com/app191/'
 
     self.open = function () {
         // 如果是手机端，加载横屏提示
@@ -947,6 +947,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     <div class="shareview">\
                         <div class="declaration jsfix" data-size="no"></div>\
                         <div class="button"><span class="reset">再玩一次</span><span class="share">分享好友</span></div>\
+                        <div class="button"><span class="prev">上一步</span><span class="next">下一步</span></div>\
                         <div class="wrapper">\
                             <span><img src="img/icon/close.png"></span>\
                             <div class="tips">点击右上角的<img src="img/icon/more.png"><br/>点击分享 <img src="img/icon/wx.png"> ，分享到朋友圈</div>\
@@ -974,6 +975,36 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
     form.init = function () {
         var userForm = $('#userForm');
 
+        // 更新slogan
+        var o = $('<div id="finallyText2">' + slogan.longValue + '</div>')
+
+        //$('.declaration').html(slogan.data[theme].m[swiper.realIndex].n).arctext({ radius: 400 });
+        $('.shareview .declaration').html(o);
+
+        if (slogan.selected.first == 2) {
+            $('#finallyText2').arctext({ radius: 1500 });
+        }
+        else {
+            $('#finallyText2').arctext({ radius: 1200 });
+        }
+
+        //
+        $('.shareview .button').eq(0).hide();
+        $('.shareview .button').eq(1).show();
+
+
+        $('.shareview .button .prev').hammer().on('tap', function () {
+            form.close();
+            $('.shareview .button').hide();
+        })
+
+        $('.shareview .button .next').hammer().on('tap', function () {
+            $('.shareview').hide();
+            $('.shareview .button').eq(0).show();
+            $('.shareview .button').eq(1).hide();
+        })
+
+
         // 隐藏横屏
         $('.block').remove();
 
@@ -999,8 +1030,9 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
         // 关闭表单，返回之前的页面
         $('.back', userForm).hammer().on("tap", function (e) {
-            form.close();
-            //$('#mainSwiper').show();
+            $('.shareview').show();
+            $('.shareview .button').eq(0).hide();
+            $('.shareview .button').eq(1).show();
         });
 
 
@@ -1199,19 +1231,6 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                         setTimeout(function () {
                             $('.finished', userForm).fadeOut();
                             $('.shareview', userForm).show();
-
-                            var o = $('<div id="finallyText2">' + slogan.longValue + '</div>')
-
-                            //$('.declaration').html(slogan.data[theme].m[swiper.realIndex].n).arctext({ radius: 400 });
-                            $('.shareview .declaration').html(o);
-
-                            if (slogan.selected.first == 2) {
-                                $('#finallyText2').arctext({ radius: 1500 });
-                            }
-                            else {
-                                $('#finallyText2').arctext({ radius: 1200 });
-                            }
-
 
                         }, 1000)
                     }
