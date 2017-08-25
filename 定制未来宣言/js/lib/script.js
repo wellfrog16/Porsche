@@ -113,22 +113,30 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
         tools.fixPosition(640);
 
+        setInterval(function () {
+            console.log(step)
+        }, 1000)
+
         var x = document.documentElement.clientWidth * -1, y = 1;
         setInterval(function () {
-            
+
             $('.scene-main').css('background-position-x', (x * y) + 'px')
             y++;
 
-            if (y > 4) { y = 0 }
-        }, 200)
+            if (y > 4) {
+                y = 0
+            }
+        }, 200);
 
         var a = document.documentElement.clientWidth * -1, b = 1;
         setInterval(function () {
 
             $('.scene-index1').css('background-position-x', (a * b) + 'px')
             b++;
-            if (b > 3) { b = 0 }
-        }, 200)
+            if (b > 3) {
+                b = 0
+            }
+        }, 200);
 
 
         // 
@@ -139,7 +147,9 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             direction: 'vertical',
             width: window.innerWidth,
             height: window.innerHeight,
-            onInit: function (sw) { initMainSwiper(sw); },
+            onInit: function (sw) {
+                initMainSwiper(sw);
+            },
             onTransitionEnd: function (swiper) {
 
                 if (swiper.activeIndex == 2) {
@@ -156,15 +166,24 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 speed: 500,
                 loop: false,
                 onlyExternal: true,
-                onInit: function (swiper) { initThemeSwiper(sw); },
+                onInit: function (swiper) {
+                    initThemeSwiper(sw);
+                },
                 onTransitionEnd: function (swiper) {
                     swiper.activeIndex > swiper.previousIndex ? step++ : step--;
 
+                    if (step < 0) { step = 0; }
+
+                    console.log('更新step');
                     // 
-                    if (step == 0) { slogan.clear(); }
+                    if (step == 0) {
+                        slogan.clear();
+                    }
 
                     // 自动更新宣言
-                    if (step == 1) { slogan.update(); }
+                    if (step == 1) {
+                        slogan.update();
+                    }
 
                     //
                 }
@@ -176,7 +195,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         // 主题swiper
         function initThemeSwiper(sw) {
             self.themeSwiper = new swiper('#themeSwiper', {
-                direction: 'vertical',
+                    direction: 'vertical',
                 freeModeMomentumRatio: 0.2,
                 slidesPerView: 3,
                 freeMode: true,
@@ -184,42 +203,42 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 centeredSlides: true,
                 slideToClickedSlide: true,
                 loop: true,
-                loopAdditionalSlides: slogan.table.slogan.length,
-                onInit: function (swiper) {
+                    loopAdditionalSlides: slogan.table.slogan.length,
+                    onInit: function (swiper) {
 
-                    // 更新数据
+                        // 更新数据
                     $.each(slogan.table.slogan, function (index, item) {
                         swiper.appendSlide('<div class="swiper-slide">' + item.name + '</div>');
-                    })
+                })
 
-                    swiper.update();
+                        swiper.update();
 
                     swiper.slideTo(slogan.table.slogan.length);
 
-                    // 第一个默认高亮
+                        // 第一个默认高亮
                     $('#themeSwiper .swiper-slide').eq(swiper.activeIndex).addClass('highlight');
 
-                    // 动作绑定
+                        // 动作绑定
                     self.bindAction();
 
-                    // 初始化完成隐藏loading
+                        // 初始化完成隐藏loading
                     $('.loading').fadeOut();
 
-                    // 调试直接显示第三页
-                    // sw.slideTo(2);
-                },
-                onTransitionStart: function () {
+                        // 调试直接显示第三页
+                        // sw.slideTo(2);
+            },
+                    onTransitionStart: function () {
                     $('#themeSwiper .highlight').removeClass('highlight');
-                },
-                onTransitionEnd: function (swiper) {
+            },
+                    onTransitionEnd: function (swiper) {
                     $('.themeSwiper li').removeClass('highlight').eq(swiper.realIndex).addClass('highlight');
                     $('#themeSwiper .swiper-slide').eq(swiper.activeIndex).addClass('highlight');
 
                     slogan.selected.first = swiper.realIndex;
                     theme = swiper.realIndex;
-                }
-            });
-        }
+            }
+        });
+    }
 
         //-----
     }
@@ -266,7 +285,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                     
                 }
                 else if (theme == 8) {
-                    if ($('.customThemeSwiper input').val() != '') { custom = true; form.open(); }
+                    if ($('.customThemeText input').val() != '') { custom = true; form.open(); }
                     return;
                 }
                 else {
@@ -296,6 +315,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                 if (step == 3 && customKey == 1 && $('.customKeyText input').val() == '') { return; }
                 if (step == 2 && $('.commonThirdSwiper .active').length == 0 && !flagCity) { return; }
 
+
                 if ($('.customKeyText input').length > 0 && $('.customKeyText input').val() != '') { custom = true; }
 
                 form.open();
@@ -307,9 +327,13 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
         $('.scene-main .pre').hammer().on("tap", function (e) {
 
+            console.log('上一步')
+
             if (step == 0) {
                 self.pageSwiper.unlockSwipes();
                 self.pageSwiper.slidePrev();
+
+                console.log('解锁')
 
                 return;
             }
@@ -1448,7 +1472,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
         slogan.value = text;
 
-        var l = text.length;
+        var l = text.length || 0;
         for (var i = 16; i > l; i--) {
             text += '　';
         }
