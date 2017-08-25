@@ -3,7 +3,7 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
-    self.host = 'http://www.porsche-cnmkt.com/app189/'
+    self.host = 'http://www.porsche-cnmkt.com/app190/'
 
     self.open = function () {
         // 如果是手机端，加载横屏提示
