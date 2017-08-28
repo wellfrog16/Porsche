@@ -3,7 +3,7 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
-    self.host = 'http://www.porsche-cnmkt.com/app191/'
+    self.host = 'http://www.porsche-cnmkt.com/app197/'
 
     self.open = function () {
         // 如果是手机端，加载横屏提示
@@ -59,6 +59,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
           { 'src': 'main/movie2.jpg' },
           { 'src': 'main/shadow.png' },
           { 'src': 'main/swiper-bg1.png' },
+          { 'src': 'main/tips.png' },
           { 'src': 'main/title-bg.png' },
           { 'src': 'main/view.jpg' },
           { 'src': 'main/word.png' }
@@ -247,6 +248,14 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
 
     self.bindAction = function () {
+        $('.help-tips').hammer().on('tap', function () {
+            $(this).hide();
+        })
+
+        $('.help-tips').hammer().on('panend', function () {
+            $(this).hide();
+        })
+
         $('.scene-main .next').hammer().on("tap", function (e) {
 
             var flagForm = true;
@@ -769,6 +778,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                         <div class="arrow"><img src="img/icon/arrow.png"></div>\
                     </div>\
                     <div class="swiper-slide scene-main">\
+                        <div class="help-tips"><img src="img/main/tips.png"></div>\
                         <div class="swiper-box">\
                             <div class="swiper-container" id="mainSwiper">\
                                 <div class="swiper-wrapper">\
@@ -1078,6 +1088,22 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             userForm.focus()
         });
 
+        //setInterval(function () {
+        //    var q = $('#number').val();
+
+        //    if (q.length > 0) {
+        //        var s1 = q.substring(0,1);
+        //        var s2 = q.substring(1);
+
+        //        var s3 = '京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领';
+        //        if (s3.indexOf(s1) == -1) { s1 = ''; s2 = ''; }
+        //        else { s2 = s2.replace(/[\u4e00-\u9fa5]/g, ''); }
+
+        //        $('#number').val(s1 + s2);
+
+        //    }
+        //}, 500)
+
         // 表单验证
         form.check();
 
@@ -1218,7 +1244,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             }
 
 
-            if (!/^[a-zA-Z0-9\u4e00-\u9fa5]+$/.test(number)) {
+            if (!/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领]{1}[a-zA-Z0-9]+$/.test(number)) {
                 form.error('请填写正确的车牌');
                 return;
             }
