@@ -3,7 +3,7 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
-    self.host = 'http://www.porsche-cnmkt.com/app197/'
+    self.host = 'http://www.porsche-cnmkt.com/app198/'
 
     self.open = function () {
         // 如果是手机端，加载横屏提示
@@ -75,6 +75,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             self.share('');
 
             //form.open();
+            $('.shareview').hide();
             self.initPageSwiper();
 
         }
@@ -961,7 +962,17 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                         <li><span>您的姓名</span><i></i><input type="text" id="name" maxlength="10" ></li>\
                         <li><span>您的手机</span><i></i><input type="text" id="mobile" maxlength="11" value=""></li>\
                         <li><span>验证码　</span><i></i><input type="text" class="code" id="code" maxlength="4" ><a href="#" id="sendCode">发送<span></span></a></li>\
-                        <li><span>您的车牌</span><i></i><input type="text" id="number" maxlength="14" ></li>\
+                        <li>\
+                            <span class="special">您的车牌</span>\
+                            <div class="select"><span>沪<span></div>\
+                            <input type="text" class="special" id="number" maxlength="14" placeholder="请输入号牌号码">\
+                            <div class="item">\
+                                <span>京</span><span>津</span><span>沪</span><span>渝</span><span>蒙</span><span>新</span><span>藏</span><span>宁</span>\
+                                <span>桂</span><span>黑</span><span class="active">吉</span><span>辽</span><span>晋</span><span>冀</span><span>青</span><span>鲁</span>\
+                                <span>豫</span><span>苏</span><span>皖</span><span>浙</span><span>闽</span><span>赣</span><span>湘</span><span>鄂</span>\
+                                <span>粤</span><span>琼</span><span>甘</span><span>陕</span><span>贵</span><span>云</span><span>川</span>\
+                            </div>\
+                        </li>\
                         <li><span>您的车型/品牌</span><input type="text" id="brand" maxlength="24" ></li>\
                     </ul>\
                     <div class="agree"><span></span>我已阅读并了解<a href="#">隐私条款</a></div>\
@@ -971,6 +982,7 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                         <h3>隐私条款</h3>\
                         <p>保时捷集团或其代理机构可能会通过您提供的信息以及我们已经存储的关于您的信息联系您，包括通过邮件、电话、短消息或者传真的形式，向您介绍有关保时捷的产品和我们提供的服务信息。我们可能会在一段合理的时间内保存您的信息，以便向您提供与我们的产品和服务有关的介绍、邀请函或资讯。 </p>\
                     </div></div>\
+                    <div class="mask"></div>\
                     <div class="result"><div class="wrapper">\
                         <div class="text">姓名不能为空</div>\
                         <div class="button"><div>确定</div>\</div>\
@@ -1036,6 +1048,19 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             $('.shareview').hide();
             $('.shareview .button').eq(0).show();
             $('.shareview .button').eq(1).hide();
+        });
+
+        // 选择车牌首字
+        $('.select', userForm).hammer().on('tap', function () {
+            $(this).toggleClass('active');
+            $('ul .item', userForm).toggle();
+            $('.mask', userForm).toggle();
+        });
+
+        $('ul .item span', userForm).on('click', function () {
+            $('ul .item span').removeClass('active');
+            $(this).addClass('active');
+            $('.select span', userForm).text($(this).text());
         })
 
 
@@ -1088,21 +1113,23 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             userForm.focus()
         });
 
-        //setInterval(function () {
-        //    var q = $('#number').val();
+        setInterval(function () {
+            var q = $('#number').val();
 
-        //    if (q.length > 0) {
-        //        var s1 = q.substring(0,1);
-        //        var s2 = q.substring(1);
+            $('#number').val(q.replace(/[\u4e00-\u9fa5]/g, ''));
 
-        //        var s3 = '京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领';
-        //        if (s3.indexOf(s1) == -1) { s1 = ''; s2 = ''; }
-        //        else { s2 = s2.replace(/[\u4e00-\u9fa5]/g, ''); }
+            //if (q.length > 0) {
+            //    var s1 = q.substring(0,1);
+            //    var s2 = q.substring(1);
 
-        //        $('#number').val(s1 + s2);
+            //    var s3 = '京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领';
+            //    if (s3.indexOf(s1) == -1) { s1 = ''; s2 = ''; }
+            //    else { s2 = s2.replace(/[\u4e00-\u9fa5]/g, ''); }
 
-        //    }
-        //}, 500)
+            //    $('#number').val(s1 + s2);
+
+            //}
+        }, 500)
 
         // 表单验证
         form.check();
@@ -1244,9 +1271,12 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             }
 
 
-            if (!/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领]{1}[a-zA-Z0-9]+$/.test(number)) {
+            if (!/^[a-zA-Z0-9]+$/.test(number)) {
                 form.error('请填写正确的车牌');
                 return;
+            }
+            else {
+                number = $('.select span', userForm).text() + number;
             }
 
 

@@ -429,13 +429,73 @@ html, body {
             padding-left:10vw;
         }
 
-        span { display:inline-block;  }
+        span { 
+            display:inline-block;
+            &.special {
+                position:relative;
+                z-index:100;
+                top:-2px;
+            }
+        }
         i { 
             display:inline-block; 
             width:10px;
             height:10px;
             background-color:#c40902;
             margin-left:10px;
+        }
+
+        div.select {
+            display:inline-block;
+            border:1px solid #000;
+            width:36px;
+            height:30px;
+            padding:2px;
+            background-image:url('../img/icon/arrow-red.png');
+            background-repeat:no-repeat;
+            background-position:right 10px;
+            background-size:12px;
+            position:relative;
+            left:10px;
+            top:0px;
+            z-index:100;
+            margin-right:10px;
+
+            span {
+                position:relative;
+                top:-2px;
+            }
+        }
+
+        div.active {
+            height:34px;
+            border:1px solid #555555;
+            border-bottom:none;
+        }
+
+        div.item {
+            position:relative;
+            width:100vw;
+            height:50vh;
+            left:-10vw;
+            border-top:1px solid #555555;
+            background-color:#000;
+            z-index:101;
+
+            padding: 10px 8vw;
+            display:none;
+
+            span {
+                display:inline-block;
+                width:12%;
+                text-align:center;
+                border:1px solid #000;
+                
+                &.active {
+                    .border-radius(5px);
+                    border:1px solid #555;
+                }
+            }
         }
 
         input {
@@ -448,6 +508,12 @@ html, body {
 
             &.code {
                 width:20vw;
+            }
+
+            &.special {
+                position:relative;
+                z-index:100;
+                top:-4px;
             }
         }
 
@@ -558,6 +624,13 @@ html, body {
         }
     }
 
+    .mask {
+        .absolute-box(100%, 100%, 0);
+        z-index:12;
+        background-color:rgba(0, 0, 0, 0.8);
+        display:none;
+    }
+
     .result {
         .absolute-box(100%, 100%, 0);
         z-index:12;
@@ -626,6 +699,7 @@ html, body {
     background-image:url('../img/main/view.jpg');
     background-size:100% auto;
     background-repeat:no-repeat;
+    z-index:110;
     //display:none;
 
     .button {
