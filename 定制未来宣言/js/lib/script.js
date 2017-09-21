@@ -3,7 +3,7 @@
 define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper, wx, tools) {
     var self = {}
 
-    self.host = 'http://www.porsche-cnmkt.com/app198/'
+    self.host = 'http://www.porsche-cnmkt.com/app202/'
 
     self.open = function () {
         // 如果是手机端，加载横屏提示
@@ -15,6 +15,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
         // loading界面
         self.preload();
+
+        splitSlogan('你暖水袋师阿hellow qwe大的请问而儿童');
     }
 
     self.preload = function () {
@@ -690,11 +692,15 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         timer = setInterval(function () {
             var text = $('.customKeyText input').val();
 
-            if (text.length > 4) {
-                $('.customKeyText .input div').text('不能超过4个字符').addClass('active')
+            var flag = true;
+
+            if (getBLen(text) > 8) {
+                $('.customKeyText .input div').text('不能超过8个字符').addClass('active')
+                flag = false;
             }
             else {
-                $('.customKeyText .input div').text('最多只能输入4个字符').removeClass('active')
+                $('.customKeyText .input div').text('最多只能输入8个字符').removeClass('active');
+                flag = true;
             }
 
             //if (text != '') {
@@ -706,7 +712,9 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
             //    $('.declaration span').removeClass('active');
             //}
 
-            slogan.update(text.substring(0, 4))
+            if (flag) {
+                slogan.update(text)
+            }
 
         }, 1000)
     }
@@ -724,16 +732,20 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         timer = setInterval(function () {
             var text = $('.customThemeText input').val();
 
-            console.log(text);
+            var flag = true;
 
-            if (text.length > 10) {
-                $('.customThemeText .input div').text('不能超过10个字符').addClass('active')
+            if (getBLen(text) > 20) {
+                $('.customThemeText .input div').text('不能超过20个字符').addClass('active')
+                flag = false;
             }
             else {
-                $('.customThemeText .input div').text('最多只能输入10个字符').removeClass('active')
+                $('.customThemeText .input div').text('最多只能输入20个字符').removeClass('active');
+                flag = true;
             }
 
-            slogan.update(text.substring(0, 10))
+            if (flag) {
+                slogan.update(text)
+            }
         }, 1000)
     }
 
@@ -792,8 +804,8 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
                                     </div>\
                                 </div>\
                             </div>\
-                            <div class="customKeyText"><div class="input"><input type="text"><div>最多只能输入4个字符</div></div></div>\
-                            <div class="customThemeText"><div class="input"><input type="text"><div>最多只能输入10个字符</div></div></div>\
+                            <div class="customKeyText"><div class="input"><input type="text"><div>最多只能输入8个字符</div></div></div>\
+                            <div class="customThemeText"><div class="input"><input type="text"><div>最多只能输入20个字符</div></div></div>\
                         </div>\
                         <div class="pagination"><div class="pre button">上一步</div><div class="next button">下一步</div></div>\
                     </div>\
@@ -1021,18 +1033,52 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
     form.init = function () {
         var userForm = $('#userForm');
 
-        // 更新slogan
-        var o = $('<div id="finallyText2">' + slogan.longValue + '</div>')
+
+        var text = slogan.longValue;
+
+        var pattern_char = /[a-zA-Z]/g;
+        var pattern_chin = /[\u4e00-\u9fa5]/g;
+        var count_char = text.match(pattern_char);
+        var count_chin = text.match(pattern_chin);
+
+        count_char = count_char == null ? 0 : count_char.length;
+        count_chin = count_chin == null ? 0 : count_chin.length;
+
+        var className = ''
+
+        if (count_char < count_chin) {
+            className = 'sloganCn'
+        }
+
+
+        var x = splitSlogan(text), o = null;
+
+        //var o = $('<div id="finallyText" class="' + className + '">' + text + '</div>')
+        if (count_chin == 0) {
+            o = $('<div id="finallyText1">' + text + '</div><div id="finallyText2"></div>');
+        }
+        else {
+            var l = x.line2.length || 0;
+            var line2 = x.line2;
+            for (var i = 8; i > l; i--) {
+                line2 += '　';
+            }
+
+            o = $('<div id="finallyText3">' + x.line1 + '</div><div id="finallyText4">' + line2 + '</div>');
+        }
 
         //$('.declaration').html(slogan.data[theme].m[swiper.realIndex].n).arctext({ radius: 400 });
         $('.shareview .declaration').html(o);
 
-        if (slogan.selected.first == 2) {
-            $('#finallyText2').arctext({ radius: 1500 });
-        }
-        else {
-            $('#finallyText2').arctext({ radius: 1200 });
-        }
+        $('#finallyText3').arctext({ radius: 1500 });
+        $('#finallyText4').arctext({ radius: 1500 });
+
+        //if (slogan.selected.first == 2) {
+        //    $('#finallyText2').arctext({ radius: 1500 });
+        //}
+        //else {
+        //    $('#finallyText2').arctext({ radius: 1200 });
+        //}
 
         //
         $('.shareview .button').eq(0).hide();
@@ -1116,7 +1162,9 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         setInterval(function () {
             var q = $('#number').val();
 
-            $('#number').val(q.replace(/[\u4e00-\u9fa5]/g, ''));
+            if (q && q.length > 0) {
+                $('#number').val(q.replace(/[\u4e00-\u9fa5]/g, ''));
+            }
 
             //if (q.length > 0) {
             //    var s1 = q.substring(0,1);
@@ -1528,25 +1576,58 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
 
         slogan.value = text;
 
-        var l = text.length || 0;
-        for (var i = 16; i > l; i--) {
-            text += '　';
-        }
+        //var l = text.length || 0;
+        //for (var i = 16; i > l; i--) {
+        //    text += '　';
+        //}
+
+        var pattern_char = /[a-zA-Z]/g;
+        var pattern_chin = /[\u4e00-\u9fa5]/g;
+        var count_char = text.match(pattern_char);
+        var count_chin = text.match(pattern_chin);
+
+        count_char = count_char == null ? 0 : count_char.length;
+        count_chin = count_chin == null ? 0 : count_chin.length;
+
+        //console.log(count_char + '_' + count_chin);//7-7
 
         slogan.longValue = text;
 
-        var o = $('<div id="finallyText">' + text + '</div>')
+        
+
+        var className = ''
+
+        if (count_char < count_chin) {
+            className = 'sloganCn'
+        }
+
+        var x = splitSlogan(text), o = null;
+
+        //var o = $('<div id="finallyText" class="' + className + '">' + text + '</div>')
+        if (count_chin == 0) {
+            o = $('<div id="finallyText1">' + text + '</div><div id="finallyText2"></div>');
+        }
+        else {
+            var l = x.line2.length || 0;
+            var line2 = x.line2;
+            for (var i = 8; i > l; i--) {
+                line2 += '　';
+            }
+
+            o = $('<div id="finallyText1">' + x.line1 + '</div><div id="finallyText2">' + line2 + '</div>');
+        }
 
         //$('.declaration').html(slogan.data[theme].m[swiper.realIndex].n).arctext({ radius: 400 });
         this.target().html(o);
 
-        if (slogan.selected.first == 2) {
-            $('#finallyText').arctext({ radius: 1500 });
-        }
-        else {
-            $('#finallyText').arctext({ radius: 1000 });
-        }
-        
+        //if (slogan.selected.first == 2) {
+        //    $('#finallyText').arctext({ radius: 1500 });
+        //}
+        //else {
+        //    $('#finallyText').arctext({ radius: 1000 });
+        //}
+        $('#finallyText1').arctext({ radius: 1500 });
+        $('#finallyText2').arctext({ radius: 1500 });
 
 
         //this.target().html(text);
@@ -1558,6 +1639,73 @@ define(['jquery', 'swiper', 'weixin', 'tools', 'createjs'], function ($, swiper,
         this.target().html('');
     }
 
+
+    var getBLen = function (str) {
+        if (str == null) return 0;
+        if (typeof str != "string") {
+            str += "";
+        }
+        return str.replace(/[^\x00-\xff]/g, "01").length;
+    }
+
+    var splitSlogan = function (str) {
+
+        var s1 = [], s2 = [];
+        var s3 = '', s4 = '';
+
+        var flag = true;
+        var start = false;
+
+        if (checkChinese(str.substring(0, 8))) {
+            s3 = str.substring(0, 8);
+            s4 = str.substring(8, str.length);
+
+            //console.log('纯中文')
+        }
+        else {
+            //console.log('有英文')
+            var s5 = [];
+
+            $.each(str.split(''), function (index, item) {
+
+                if ((checkChinese(item) || item == ' ') && s5.length > 0) {
+                    return false;
+                }
+
+                if (!checkChinese(item) && item != ' ') {
+                    s5.push(item);
+                }
+
+            })
+
+            //console.log(s5.join('') + '!!!');
+
+            var arr = str.split(s5.join(''));
+
+            if (arr[0].length < 8) {
+                s3 = arr[0] + s5.join('');
+
+                _arr = arr[1].split('')
+                if (_arr[0] == ' ') {
+                    _arr.shift();
+                }
+
+                s4 = _arr.join('');
+            }
+            else {
+                s3 = arr[0];
+                s4 = s5.join('') + arr[1];
+            }
+        }
+
+        return { line1 : s3, line2 : s4}
+    }
+
+    function checkChinese(s) {
+        var re = /[^\u4e00-\u9fa5]/;
+
+        return !re.test(s);
+    }
 
 
     return self;

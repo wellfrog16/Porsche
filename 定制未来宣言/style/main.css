@@ -152,19 +152,21 @@ body {
 }
 .declaration {
   position: absolute;
-  top: 263px;
-  left: 280px;
+  top: 196px;
+  left: 305px;
   overflow: hidden;
   height: 40px;
   width: 200px;
   color: #fff;
   z-index: 5;
-  font-size: 8px;
-  transform: rotate(24deg);
-  -ms-transform: rotate(24deg);
-  -webkit-transform: rotate(24deg);
-  -moz-transform: rotate(24deg);
-  -o-transform: rotate(24deg);
+  font-size: 12px;
+  line-height: 13px;
+  transform-origin: 0 0 0;
+  transform: rotate(21deg);
+  -ms-transform: rotate(21deg);
+  -webkit-transform: rotate(21deg);
+  -moz-transform: rotate(21deg);
+  -o-transform: rotate(21deg);
   /*span {
         padding:0px 10px;
 
@@ -172,6 +174,9 @@ body {
             padding:0;
         }
     }*/
+}
+.sloganCn {
+  width: 100px;
 }
 .swiper-box {
   width: 100%;
@@ -714,19 +719,21 @@ body {
 }
 .shareview .declaration {
   position: absolute;
-  top: 568px;
-  left: 335px;
+  top: 495px;
+  left: 366px;
   overflow: hidden;
   height: 40px;
   width: 200px;
   color: #fff;
   z-index: 10;
-  font-size: 8px;
-  transform: rotate(24deg);
-  -ms-transform: rotate(24deg);
-  -webkit-transform: rotate(24deg);
-  -moz-transform: rotate(24deg);
-  -o-transform: rotate(24deg);
+  font-size: 12px;
+  line-height: 13px;
+  transform-origin: 0 0 0;
+  transform: rotate(23deg);
+  -ms-transform: rotate(23deg);
+  -webkit-transform: rotate(23deg);
+  -moz-transform: rotate(23deg);
+  -o-transform: rotate(23deg);
 }
 .shareview .wrapper {
   width: 100%;
